@@ -5,7 +5,11 @@ import "./Navbar.css"
 function Navbar(){
     return (
         <nav>
-            <div className="left">UCRide</div>
+            <div className="left">
+                <Link to="/">
+                    UCRide
+                </Link>
+            </div>
             <div className="right">
                 {/* <span className="user-fname">Drake</span> */}
                 <Link to="/signin">

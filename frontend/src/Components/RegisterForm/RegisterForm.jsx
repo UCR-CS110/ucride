@@ -16,22 +16,22 @@ function RegisterForm() {
                 <div className="form-row">
                     <div className="field">
                         <label htmlFor="firstName">First Name</label>
-                        <input type="text" id="firstName" name="firstName" placeholder="Jane" required autocomplete="given-name" />
+                        <input type="text" id="firstName" name="firstName" placeholder="Jane" required autoComplete="given-name" />
                     </div>
                     <div className="field">
                         <label htmlFor="lastName">Last Name</label>
-                        <input type="text" id="lastName" name="lastName" placeholder="Doe" required autocomplete="family-name" />
+                        <input type="text" id="lastName" name="lastName" placeholder="Doe" required autoComplete="family-name" />
                     </div>
                 </div>
 
                 <div className="field">
                     <label htmlFor="email">UCR Email</label>
-                    <input type="email" id="email" name="email" placeholder="jdoe012@ucr.edu" required autocomplete="username" />
+                    <input type="email" id="email" name="email" placeholder="jdoe012@ucr.edu" required autoComplete="username" />
                 </div>
 
                 <div className="field">
                     <label htmlFor="password">Password</label>
-                    <input type="password" id="password" name="password" required autocomplete="new-password" />
+                    <input type="password" id="password" name="password" required autoComplete="new-password" />
                 </div>
 
                 <div>
