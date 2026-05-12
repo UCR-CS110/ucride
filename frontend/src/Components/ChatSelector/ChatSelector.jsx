@@ -1,7 +1,62 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './ChatSelector.css';
 
-function ChatSelector() {
+function ChatSelector({ activeChat, setActiveChat }) {
+    const [chats, setChats] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    // hook up to backend api once it is running
+    const fetchChats = useCallback(async () => {
+        setLoading(true);
+        try {
+            const mockData = [
+                {
+                    id: 1,
+                    initials: 'SJ',
+                    name: 'Sarah Jade',
+                    time: '10:24AM',
+                    lastMessage: 'Thanks for the ride!',
+                },
+                {
+                    id: 2,
+                    initials: 'MC',
+                    name: 'Mike Chen',
+                    time: '6:32PM',
+                    lastMessage: 'What time are...',
+                },
+                {
+                    id: 3,
+                    initials: 'JD',
+                    name: 'John Doe',
+                    time: 'Yesterday',
+                    lastMessage: 'See you then.',
+                }
+            ];
+            
+            setTimeout(() => {
+                setChats(mockData);
+                setActiveChat(prev => {
+                    if (mockData.length > 0 && !prev) {
+                        return mockData[0];
+                    }
+                    return prev;
+                });
+                setLoading(false);
+            }, 200);
+        } catch (error) {
+            console.error("Failed to fetch chats:", error);
+            setLoading(false);
+        }
+    }, [setActiveChat]);
+
+    useEffect(() => {
+        fetchChats();
+    }, [fetchChats]);
+
+    const handleChatClick = (chat) => {
+        setActiveChat(chat);
+    };
+
     return (
         <div className="container-left">
             <h1>Messages</h1>
@@ -9,26 +64,28 @@ function ChatSelector() {
                 <input type="search" id="site-search" name="q" placeholder="Search conversations..." />
             </search>
             <div className="directmessage-container">
-                <div className="directmessage active">
-                    <div className="avatar">SJ</div>
-                    <div className="right">
-                        <div className="top">
-                            <span className="profile-name">Sarah Jade</span>
-                            <span className="time-of-message">10:24AM</span>
-                        </div>
-                        <div className="bottom">Thanks for the ride!</div>
+                {loading ? (
+                    <div className="loading-text">
+                        Loading...
                     </div>
-                </div>
-                <div className="directmessage">
-                    <div className="avatar">MC</div>
-                    <div className="right">
-                        <div className="top">
-                            <span className="profile-name">Mike Chen</span>
-                            <span className="time-of-message">6:32PM</span>
+                ) : (
+                    chats.map(chat => (
+                        <div 
+                            key={chat.id}
+                            className={`directmessage ${activeChat?.id === chat.id ? 'active' : ''}`}
+                            onClick={() => handleChatClick(chat)}
+                        >
+                            <div className="avatar">{chat.initials}</div>
+                            <div className="right">
+                                <div className="top">
+                                    <span className="profile-name">{chat.name}</span>
+                                    <span className="time-of-message">{chat.time}</span>
+                                </div>
+                                <div className="bottom">{chat.lastMessage}</div>
+                            </div>
                         </div>
-                        <div className="bottom">What time are...</div>
-                    </div>
-                </div>
+                    ))
+                )}
             </div>
         </div>
     );

@@ -129,3 +129,18 @@
 .white {
     filter: invert(100%);
 }
+
+.select-chat-message {
+	color: var(--text-mid);
+}
+
+.chat-content-announcement {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.loading-message {
+	padding: 1rem;
+	text-align: center;
+	color: var(--text-mid);
+}
