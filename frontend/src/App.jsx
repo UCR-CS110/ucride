@@ -6,13 +6,13 @@ import './App.css'
 
 import {Routes, Route, BrowserRouter, Navigate} from "react-router-dom"
 import Layout from "./pages/Layout.jsx";
-import Driver from "./pages/Driver.jsx";
-import Admin from "./pages/Admin";
-import Rider from "./pages/Rider";
-import Signin from "./pages/Signin";
-import Messages from "./pages/Messages";
-import Register from "./pages/Register";
-import Home from "./pages/Home";
+import Driver from "./pages/Driver/Driver.jsx";
+import Admin from "./pages/Admin/Admin.jsx";
+import Rider from "./pages/Rider/Rider.jsx";
+import Signin from "./pages/Signin/Signin.jsx";
+import Messages from "./pages/Messages/Messages.jsx";
+import Register from "./pages/Register/Register.jsx";
+import Home from "./pages/Home/Home.jsx";
 
 
 function App() {
