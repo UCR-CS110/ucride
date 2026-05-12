@@ -150,7 +150,6 @@
 	background-color: #1295D8;
     transition: background-color 0.2s ease-in-out;
 	border: none;
-	border-radius: var(--radius-btn);
     cursor: pointer;
 }
 

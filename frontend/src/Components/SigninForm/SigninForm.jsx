@@ -15,11 +15,11 @@ function SigninForm(){
                 <form action="/signin" method="POST">
                     <div className="field">
                         <label htmlFor="email">UCR Email</label>
-                        <input type="email" id="email" name="email" placeholder="jdoe012@ucr.edu" required autocomplete="username" />
+                        <input type="email" id="email" name="email" placeholder="jdoe012@ucr.edu" required autoComplete="username" />
                     </div>
                     <div className="field">
                         <label htmlFor="password">Password</label>
-                        <input type="password" id="password" name="password" required autocomplete="current-password" />
+                        <input type="password" id="password" name="password" required autoComplete="current-password" />
                     </div>
                     <button type="submit" className="button-dark submit-btn">Sign In</button>
                 </form>

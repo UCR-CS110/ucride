@@ -10,3 +10,13 @@
 	--white: #ffffff;
 	--radius-btn: 0.75rem;
 }
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	font-family: sans-serif, Arial;
+	margin: auto;
+	max-width: 800px;
+}

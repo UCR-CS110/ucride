@@ -18,6 +18,12 @@ nav .left {
 	color: var(--blue-deep);
 }
 
+nav .left a{
+	text-decoration: none;
+	color: inherit;
+	
+}
+
 nav .right {
 	display: flex;
 	gap: 1rem;
