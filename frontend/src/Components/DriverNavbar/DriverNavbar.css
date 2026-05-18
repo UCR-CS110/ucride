@@ -1,0 +1,78 @@
+.driverNav {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 1rem;
+	position: sticky;
+	top: 0;
+	z-index: 1000;
+	padding: 1rem;
+	width: 100%;
+}
+
+nav .driverNavLeft {
+	font-size: large;
+	font-weight: bold;
+	color: var(--blue-deep);
+}
+
+nav .driverNavRight {
+	display: flex;
+	gap: 1rem;
+    align-items: center;
+	justify-content: space-between;
+}
+
+.driverNavRight button {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    display: flex;
+}
+
+button:hover {
+	cursor: pointer;
+}
+
+.driverNavbarImg {
+    width:25px;
+}
+
+.driver{
+    background-color:cornflowerblue;
+    padding:5px;
+    border-radius: 15px;  
+    color:white;
+    margin:5px;
+}
+
+.tooltip-container {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    opacity: 0;
+
+    position: absolute;
+    top: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    background-color: black;
+    color: white;
+
+    padding: 5px 10px;
+    border-radius: 5px;
+
+    font-size: 12px;
+    white-space: nowrap;
+
+    transition: opacity 0.2s;
+}
+
+.tooltip-container:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
