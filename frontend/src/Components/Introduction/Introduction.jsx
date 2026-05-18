@@ -1,5 +1,6 @@
 import React from "react";
 import {Link, Outlet} from "react-router-dom";
+import { Car, DollarSign, Users, Leaf } from 'lucide-react';
 import "./Introduction.css"
 
 function Introduction() {
@@ -14,19 +15,19 @@ function Introduction() {
                 <h2>Why UCRide?</h2>
                 <div className="why-wrapper">
                     <div className="benefit">
-                        <div className="icon-wrapper"><img src="/icons/car.png" alt="Car icon" /></div>
+                        <div className="icon-wrapper"><Car /></div>
                         <div className="benefit-content">Easy Parking</div>
                     </div>
                     <div className="benefit">
-                        <div className="icon-wrapper"><img src="./icons/dollar.png" alt="Dollar sign icon" /></div>
+                        <div className="icon-wrapper"><DollarSign /></div>
                         <div className="benefit-content">Save Money</div>
                     </div>
                     <div className="benefit">
-                        <div className="icon-wrapper"><img src="./icons/group.png" alt="Group of people icon" /></div>
+                        <div className="icon-wrapper"><Users /></div>
                         <div className="benefit-content">Build Community</div>
                     </div>
                     <div className="benefit">
-                        <div className="icon-wrapper"><img src="./icons/leaf.png" alt="Eco friendly icon"/></div>
+                        <div className="icon-wrapper"><Leaf /></div>
                         <div className="benefit-content">Eco-Friendly</div>
                     </div>
                 </div>
