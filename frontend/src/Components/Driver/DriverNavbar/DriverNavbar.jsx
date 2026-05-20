@@ -10,17 +10,7 @@ function DriverNavbar(){
                 <span className="driver">Driver</span>
             </div>
            
-            <div className="driverNavRight">
-                <div className="tooltip-container">
-                    <Link to="/alert">
-                        <button>
-                            <img className="driverNavbarImg" src="/icons/bell.png" alt="alert image"/>
-                        </button>
-
-                        <span className="tooltip-text">Alert</span>
-                    </Link>
-                </div>
-                
+            <div className="driverNavRight"> 
                 <div className="tooltip-container">
                     <Link to="/messages">
                         <button>

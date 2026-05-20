@@ -8,9 +8,7 @@ function Driver() {
         <div>
             <>
             <Outlet context={{ reviewCount, setReviewCount }} />
-
-
-        </>
+            </>
         </div>
         
     )

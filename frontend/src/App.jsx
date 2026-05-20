@@ -1,7 +1,4 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
 import './App.css'
 
 import {Routes, Route, BrowserRouter, Navigate} from "react-router-dom"
@@ -12,16 +9,13 @@ import Rider from "./pages/Rider/Rider";
 import Signin from "./pages/Signin/Signin";
 import Messages from "./pages/Messages/Messages";
 import Register from "./pages/Register/Register";
-import Profile from "./pages/Profile/Profile";
-import Alert from "./pages/Alert/Alert";
+import Profile from "./pages/ProfileSetting/ProfileSetting";
 import CreateNewRide from "./pages/CreateNewRide/CreateNewRide";
 import Home from "./pages/Home/Home";
 import RequestReview from "./pages/RequestReview/RequestReview";
-import DriverMyRides from "./Components/DriverMyRides/DriverMyRides";
-
+import DriverMyRides from "./Components/Driver/DriverMyRides/DriverMyRides";
 
 function App() {
-
   return (
     <>
       <BrowserRouter>
@@ -39,7 +33,6 @@ function App() {
             <Route path="messages" element={<Messages />} />
             <Route path="register" element={<Register />} />
             <Route path="profile" element={<Profile />} />
-            <Route path="alert" element={<Alert />} />
             <Route path="createNewRide" element={<CreateNewRide />} />
           </Route>
         </Routes>

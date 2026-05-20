@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "../Components/Navbar/Navbar.jsx";
-import DriverNavbar from "../Components/DriverNavbar/DriverNavbar.jsx";
+import DriverNavbar from "../Components/Driver/DriverNavbar/DriverNavbar.jsx";
 
 function Layout() {
     const location = useLocation();
