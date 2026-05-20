@@ -1,7 +1,17 @@
-import react from "react";
+import React, { useState } from "react";
+import { Outlet } from "react-router-dom";
 
 function Driver() {
-    return <h2>Driver Pages</h2>;
+    const [reviewCount, setReviewCount] = useState(1);
+
+    return (
+        <div>
+            <>
+            <Outlet context={{ reviewCount, setReviewCount }} />
+            </>
+        </div>
+        
+    )
 }
 
 

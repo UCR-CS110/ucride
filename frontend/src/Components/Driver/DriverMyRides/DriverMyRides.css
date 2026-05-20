@@ -1,0 +1,44 @@
+.myRides{
+    display:flex;
+    justify-content: space-between;
+	align-items: center;
+}
+
+.postRideButton{
+    width: 100%;
+	padding: 0.9rem;
+	background: var(--blue-deep);
+	color: var(--white);
+	font-size: 1rem;
+	font-weight: 600;
+	border-radius: 0.65rem;
+	margin-top: 0.5rem;
+    border: none;
+}
+
+.postRideButton:hover {
+	background: var(--blue-bright);
+	transform: translateY(-1px);
+}
+
+.reviewRequest{
+    display:flex;
+    justify-content: space-between;
+	align-items: center;
+    background-color:var(--gold);
+    border-radius: 0.65rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.reviewRequestButton{
+    width: 100%;
+	padding: 0.9rem;
+	background-color:var(--blue-bright) ;
+	color: var(--white);
+	font-size: 1rem;
+	font-weight: 600;
+	border-radius: 1.5rem;
+	
+    border: none;
+}
