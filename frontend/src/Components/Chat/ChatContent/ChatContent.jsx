@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './ChatContent.css';
-import sendIcon from '../../../icons/send.png';
+import { Send } from 'lucide-react';
 
 function ChatContent({ activeChat }) {
     const [messages, setMessages] = useState([]);
@@ -74,7 +74,7 @@ function ChatContent({ activeChat }) {
             <div className="message-input-bar">
                 <input type="text" placeholder="Type a message..." />
                 <button className="send-btn">
-                    <img src={sendIcon} alt="Send" className="icon-xlarge white" />
+                    <Send className="icon-xlarge white" />
                 </button>
             </div>
         </div>

@@ -1,7 +1,4 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
 import './App.css'
 
 import {Routes, Route, BrowserRouter, Navigate} from "react-router-dom"
@@ -14,9 +11,7 @@ import Messages from "./pages/Messages/Messages.jsx";
 import Register from "./pages/Register/Register.jsx";
 import Home from "./pages/Home/Home.jsx";
 
-
 function App() {
-
   return (
     <>
       <BrowserRouter>
