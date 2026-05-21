@@ -4,6 +4,9 @@ import './App.css'
 import {Routes, Route, BrowserRouter, Navigate} from "react-router-dom"
 import Layout from "./pages/Layout.jsx";
 import Driver from "./pages/Driver/Driver.jsx";
+import DriverMyRides from "./Components/Driver/DriverMyRides/DriverMyRides.jsx";
+import CreateNewRide from "./pages/CreateNewRide/CreateNewRide.jsx";
+import RequestReview from "./pages/RequestReview/RequestReview.jsx";
 import Admin from "./pages/Admin/Admin.jsx";
 import Rider from "./pages/Rider/Rider.jsx";
 import Signin from "./pages/Signin/Signin.jsx";
@@ -21,7 +24,11 @@ function App() {
             <Route path="/" element={<Layout />}>
               <Route index element={<Home />} />
               <Route path="home" element={<Home />} />
-              <Route path="driver" element={<Driver />} />
+              <Route path="driver" element={<Driver />}>
+                <Route index element={<DriverMyRides />} />
+                <Route path="requestReview" element={<RequestReview />} />
+              </Route>
+              <Route path="createNewRide" element={<CreateNewRide />} />
               <Route path="admin" element={<Admin />} />
               <Route path="rider" element={<Rider />} />
               <Route path="signin" element={<Signin />} />

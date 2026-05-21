@@ -5,12 +5,9 @@ function Driver() {
     const [reviewCount, setReviewCount] = useState(1);
 
     return (
-        <div>
-            <>
+        <>
             <Outlet context={{ reviewCount, setReviewCount }} />
-            </>
-        </div>
-        
+        </>        
     )
 }
 
