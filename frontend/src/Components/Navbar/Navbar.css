@@ -11,6 +11,9 @@ nav {
 }
 
 nav .left {
+	display: flex;
+	align-items: center;
+	gap: 2rem;
 	font-size: 1.15rem;
 	font-weight: 600;
 	color: var(--blue-deep);
@@ -26,10 +29,56 @@ nav .left a:hover {
 	color: var(--blue-bright);
 }
 
+nav .nav-links {
+	display: flex;
+	gap: 1.5rem;
+	font-size: 1rem;
+	font-weight: 500;
+}
+
+nav .nav-links a {
+	color: var(--text-dark);
+}
+
 nav .right {
 	display: flex;
 	gap: 1rem;
 	align-items: center;
+}
+
+nav .user-info {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	margin-right: 0.5rem;
+}
+
+nav .user-fname {
+	font-weight: 600;
+	color: var(--blue-deep);
+}
+
+nav .role-badge {
+	font-size: 0.75rem;
+	padding: 0.25rem 0.5rem;
+	border-radius: 1rem;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+nav .role-admin {
+	background-color: #ffcccc;
+	color: #cc0000;
+}
+
+nav .role-driver {
+	background-color: #ccffcc;
+	color: #008000;
+}
+
+nav .role-rider {
+	background-color: #ccccff;
+	color: #0000cc;
 }
 
 .button-light {
@@ -74,10 +123,23 @@ nav button:hover {
 
 	nav .left {
 		font-size: 1.1rem;
+		gap: 1rem;
+	}
+
+	nav .nav-links {
+		display: none; /* Hide on very small screens for now */
 	}
 
 	nav .right {
 		gap: 0.5rem;
+	}
+
+	nav .user-info {
+		gap: 0.5rem;
+	}
+
+	nav .role-badge {
+		display: none; /* Hide badge on small screens to save space */
 	}
 
 	.button-light,

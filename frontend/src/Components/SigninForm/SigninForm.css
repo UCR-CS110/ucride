@@ -63,12 +63,18 @@ form {
 }
 
 .form-row {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
+	display: flex;
+	flex-direction: row;
 	gap: 0.75rem;
 }
 
-.field {
+@media (max-width: 740px) {
+	.form-row {
+		flex-direction: column;
+	}
+}
+
+.field {c
 	display: flex;
 	flex-direction: column;
 	gap: 0.35rem;
