@@ -15,6 +15,10 @@ React and Vite
 | /rider | Dashboard for riders to search for rides, request seats, and view their ride status |
 | /messages | Interface for DMs between drivers and passengers/users |
 | /admin | Dashboard for managing users, reviews, monitoring rides, and analytics. | 
+| /requestReview | Dashboard to review rider request | 
+| /createNewRide | Form for drivers to create and post available rides | 
+| /profile | Dashboard for managing personal profile | 
+
 
 ## Components
 
