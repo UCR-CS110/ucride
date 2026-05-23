@@ -28,7 +28,7 @@
     font-weight: 600;
     color: var(--text-mid);
     padding: 1rem 0.5rem;
-    margin-bottom: -2px; /* Pull down to overlap container border */
+    margin-bottom: -2px; 
     position: relative;
     transition: color 0.3s ease;
 }

@@ -1,9 +1,38 @@
 # UCRide
+
 ## Backend
-The backend architecture explained in `backend/readme.md`.
+- Built with Node.js and Express.js
+- Architecture explained further in `backend/readme.md`
 
 ## Frontend
-The frontend architecture explained in `frontend/readme.md`.
+- Built with React.js
+- Architecture explained further in `frontend/readme.md`
+
+## Deployment
+- Navigate to `backend/` and run `npm run dev` to start the backend server
+- Navigate to `frontend/` and run `npm run dev` to start the frontend server
+- Open a browser and navigate to the URL given by npm after starting the web server
+
+## Project Progress
+### Frontend
+|    Page   |  Structure | Styled | Connected To Backend |
+|:---------:|:----------:|--------|:---------------|
+|    Home       | Y | Y | NA  | 
+|    Driver     | Y | Y | N   |
+|    Rider      | Y | Y | N   |
+|    Admin      | N | N | N   |
+|    Messages   | Y | Y | N   |
+|    Register   | Y | Y | N   |
+|    SignIn     | Y | Y | N   |
+
+### Backend  
+|    Modules   |  Structure | Logic |
+|:---------:|:----------:|--------|
+|    User     | Y | N |
+|    Ride     | Y | N | 
+|    Request  | Y | N | 
+|    Review   | Y | N | 
+|    Message  | Y | N | 
 
 ## Misc
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/c4wSHrp5)

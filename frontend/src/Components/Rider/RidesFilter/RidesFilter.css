@@ -117,7 +117,7 @@ input[type="range"]::-webkit-slider-thumb {
   cursor: pointer;
 }
 
-.ride-card {
+.rider-ride-card {
   background: var(--white);
   border: 1.5px solid var(--blue-pale);
   border-radius: 1rem;
@@ -129,7 +129,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 @media (max-width: 768px){
-  .ride-card {
+  .rider-ride-card {
     flex-direction: column;
     align-items: center;
     gap: 16px;
@@ -140,7 +140,7 @@ input[type="range"]::-webkit-slider-thumb {
     height: 1.5px;
   }
   
-  .ride-details {
+  .rider-ride-details {
     align-items: center;
     text-align: center;
   }
@@ -160,10 +160,6 @@ input[type="range"]::-webkit-slider-thumb {
     padding-top: 12px;
     border-top: 1.5px dashed var(--blue-pale);
   }
-}
-
-.ride-card:hover {
-  transform: translateY(-2px);
 }
 
 .driver-col {
@@ -214,7 +210,6 @@ input[type="range"]::-webkit-slider-thumb {
   color: var(--text-mid);
 }
 
-/* Vertical divider */
 .card-divider {
   width: 1.5px;
   background: var(--blue-pale);
@@ -223,8 +218,7 @@ input[type="range"]::-webkit-slider-thumb {
   align-self: stretch;
 }
 
-/* Ride details */
-.ride-details {
+.rider-ride-details {
   flex: 1;
   min-width: 200px;
   display: flex;
