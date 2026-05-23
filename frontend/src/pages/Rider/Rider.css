@@ -1,7 +1,7 @@
 .rider-page {
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - 60px); /* Assuming there's a top navbar */
+  min-height: calc(100vh - 60px);
   background-color: #f4f6f8;
   padding: 2rem;
 }

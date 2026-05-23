@@ -19,7 +19,7 @@ function RideCard({ ride, onRequest, requested }) {
   const time = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
   return (
-    <div className="ride-card">
+    <div className="rider-ride-card">
       <div className="driver-col">
         <img
           src={ride.driverId.profilePictureUrl}
@@ -38,7 +38,7 @@ function RideCard({ ride, onRequest, requested }) {
       <div className="card-divider" />
 
       {/* Route and details */}
-      <div className="ride-details">
+      <div className="rider-ride-details">
         <div className="route-row">
           <span className="location-badge location-badge--from">{ride.departureLocation}</span>
           <ArrowRight className="arrow-icon" size={18} color="var(--blue-bright)" strokeWidth={2.5} />

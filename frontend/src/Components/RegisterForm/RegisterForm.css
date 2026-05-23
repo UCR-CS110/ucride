@@ -90,7 +90,7 @@ form {
 	background: var(--blue-lightest);
 	color: var(--text-dark);
 	outline: none;
-	transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+	transition: border-color 0.2s ease, background 0.2s ease;
 }
 
 .field input:focus {
@@ -153,7 +153,6 @@ form {
 	border-color: var(--blue-deep);
 	background: var(--white);
 	color: var(--blue-deep);
-	box-shadow: 0 0 0 3px rgba(8, 118, 172, 0.12);
 	font-weight: 600;
 }
 
@@ -170,5 +169,4 @@ form {
 
 .submit-btn:hover {
 	background: var(--blue-bright);
-	transform: translateY(-1px);
 }

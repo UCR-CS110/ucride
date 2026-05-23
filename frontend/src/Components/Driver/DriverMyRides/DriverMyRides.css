@@ -46,7 +46,6 @@
 
 .post-ride-btn:hover {
   background: var(--blue-deep);
-  transform: translateY(-1px);
 }
 
 .my-rides-stats {
@@ -156,10 +155,6 @@
   transition: transform 0.15s;
 }
 
-.ride-card:hover {
-  transform: translateY(-2px);
-}
-
 .ride-card--open {
   border-top-color: #16a34a;
 }
@@ -176,11 +171,11 @@
   border-top-color: var(--text-light);
 }
 
-/* Route */
 .ride-card_route {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 0.25rem;
+  align-content: center;
 }
 
 .ride-card_location {
@@ -192,21 +187,6 @@
   color: var(--text-dark);
 }
 
-.ride-card_dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.ride-card_dot--from {
-  background: var(--blue-bright);
-}
-
-.ride-card_dot--to {
-  background: var(--blue-deep);
-}
-
 .ride-card_arrow {
   padding-left: 4px;
   color: var(--text-light);
@@ -214,7 +194,6 @@
   line-height: 1;
 }
 
-/* Meta */
 .ride-card_meta {
   display: flex;
   flex-direction: column;
@@ -233,7 +212,6 @@
   font-size: 0.9rem;
 }
 
-/* Footer */
 .ride-card_footer {
   display: flex;
   align-items: center;

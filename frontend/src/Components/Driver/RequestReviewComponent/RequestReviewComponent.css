@@ -75,10 +75,6 @@
   transition: transform 0.15s;
 }
 
-.request-card:hover {
-  transform: translateY(-1px);
-}
-
 .request-card_rider {
   display: flex;
   align-items: center;
@@ -217,7 +213,6 @@
 
 .request-card_btn:hover {
   opacity: 0.85;
-  transform: translateY(-1px);
 }
 
 .request-card_btn--accept {

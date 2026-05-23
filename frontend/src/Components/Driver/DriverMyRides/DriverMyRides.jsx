@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
-import { ArrowDown, Clock, Users, Banknote, ClipboardList, Plus } from "lucide-react";
+import { ArrowRight, Clock, Users, Banknote, ClipboardList, Plus } from "lucide-react";
 import "./DriverMyRides.css";
 
 const mockRides = [
@@ -78,12 +78,10 @@ function RideCard({ ride }) {
     <div className={`ride-card ride-card--${ride.status}`}>
       <div className="ride-card_route">
         <div className="ride-card_location">
-          <span className="ride-card_dot ride-card_dot--from" />
           <span className="ride-card_place">{ride.departureLocation}</span>
         </div>
-        <div className="ride-card_arrow"><ArrowDown size={16} /></div>
+        <div className="ride-card_arrow"><ArrowRight size={16} /></div>
         <div className="ride-card_location">
-          <span className="ride-card_dot ride-card_dot--to" />
           <span className="ride-card_place">{ride.destination}</span>
         </div>
       </div>
