@@ -127,7 +127,7 @@ nav button:hover {
 	}
 
 	nav .nav-links {
-		display: none; /* Hide on very small screens for now */
+		display: none;
 	}
 
 	nav .right {
@@ -139,7 +139,7 @@ nav button:hover {
 	}
 
 	nav .role-badge {
-		display: none; /* Hide badge on small screens to save space */
+		display: none; 
 	}
 
 	.button-light,
