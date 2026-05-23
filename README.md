@@ -15,11 +15,11 @@
 
 ## Project Progress
 ### Frontend
-|    Page   |  Structure | Styled | API Connected |
+|    Page   |  Structure | Styled | Connected To Backend |
 |:---------:|:----------:|--------|:---------------|
 |    Home       | Y | Y | NA  | 
-|    Driver     | N | N | N   |
-|    Rider      | Y | Y | Y   |
+|    Driver     | Y | Y | N   |
+|    Rider      | Y | Y | N   |
 |    Admin      | N | N | N   |
 |    Messages   | Y | Y | N   |
 |    Register   | Y | Y | N   |
@@ -28,11 +28,11 @@
 ### Backend  
 |    Modules   |  Structure | Logic |
 |:---------:|:----------:|--------|
-|    User     | N | N |
-|    Ride     | N | N | 
-|    Request  | N | N | 
-|    Review   | N | N | 
-|    Message  | N | N | 
+|    User     | Y | N |
+|    Ride     | Y | N | 
+|    Request  | Y | N | 
+|    Review   | Y | N | 
+|    Message  | Y | N | 
 
 ## Misc
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/c4wSHrp5)
