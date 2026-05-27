@@ -1,0 +1,192 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--blue-pale);
+  margin-top: 1rem;
+  padding: 1rem 1.5rem;
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: 2rem;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--blue-deep);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.logo:hover {
+  color: var(--blue-bright);
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.navLinks a svg {
+  width: 24px;
+  height: 24px;
+  color: var(--blue-deep);
+}
+.navLinks a svg:hover {
+  width: 24px;
+  height: 24px;
+  color: var(--blue-bright);
+}
+
+.navLinks a {
+  text-decoration: none;
+  color: var(--deep-blue);
+  transition: color 0.2s ease;
+}
+
+.navLinks a:hover {
+  color: var(--blue-bright);
+}
+
+
+.roleSwitcher {
+  display: flex;
+  align-items: center;
+  background-color: var(--white);
+  border-radius: 2rem;
+  padding: 0.2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.switchBtn {
+  border: none;
+  background: transparent;
+  border-radius: 2rem;
+  padding: 0.3rem 0.9rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.switchBtn:hover {
+  background-color: var(--blue-pale);
+}
+
+.switchActive {
+  background-color: var(--blue-deep);
+  color: var(--white);
+}
+
+.switchActive:hover {
+  background-color: var(--blue-deep);
+}
+
+
+.right {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-right: 0.25rem;
+}
+
+.userName {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--blue-deep);
+}
+
+.roleBadge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.roleAdmin {
+  background-color: #ffcccc;
+  color: #cc0000;
+}
+
+
+.buttonLight {
+  padding: 0.5rem 1.25rem;
+  background-color: var(--white);
+  color: var(--text-dark);
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-btn);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.buttonLight:hover {
+  background-color: var(--gold);
+  color: var(--white);
+}
+
+.buttonDark {
+  padding: 0.5rem 1.25rem;
+  background-color: var(--blue-deep);
+  color: var(--white);
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-btn);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.buttonDark:hover {
+  background-color: var(--blue-bright);
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0.75rem 1rem;
+    border-radius: 1.5rem;
+  }
+
+  .logo {
+    font-size: 1.1rem;
+  }
+
+  .navLinks {
+    gap: 1rem;
+  }
+
+  .switchBtn {
+    padding: 0.25rem 0.65rem;
+    font-size: 0.8rem;
+  }
+
+  .userName {
+    display: none;
+  }
+
+  .buttonLight,
+  .buttonDark {
+    padding: 0.4rem 0.85rem;
+    font-size: 0.85rem;
+  }
+}

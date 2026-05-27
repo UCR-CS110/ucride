@@ -1,82 +1,167 @@
-import React, { useState, useEffect } from 'react';
-import './ChatContent.css';
-import { Send } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import styles from './ChatContent.module.css';
+import { Send, MessageSquare } from 'lucide-react';
+import api from '../../../utils/api';
+import { useAuth } from '../../../context/useAuth';
+import clsx from 'clsx';
 
-function ChatContent({ activeChat }) {
+function ChatContent({ activeChat, socket }) {
+    const { user } = useAuth();
     const [messages, setMessages] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [sending, setSending] = useState(false);
+    const [newMessage, setNewMessage] = useState("");
+    const messagesEndRef = useRef(null);
+
+    const fetchMessages = async () => {
+        if (!activeChat) return;
+        setLoading(true);
+        try {
+            const response = await api.get('/messages/conversation', {
+                params: {
+                    rideId: activeChat.rideId,
+                    otherUserId: activeChat.otherUserId
+                }
+            });
+            setMessages(response.data.data);
+        } catch (error) {
+            console.error("Failed to fetch messages:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        if (!activeChat) return;
-
-        // hook up to backend once it is running
-        const fetchMessages = async () => {
-            setLoading(true);
-            try {
-                const mockMessages = {
-                    1: [
-                        { id: 101, sender: 'other', text: "Hi, I'm going to be 5 minutes late to pick you up. Sorry!" },
-                        { id: 102, sender: 'me', text: "Okay" },
-                        { id: 103, sender: 'other', text: "👍" },
-                    ],
-                    2: [
-                        { id: 201, sender: 'me', text: "Are we still on for today?" },
-                        { id: 202, sender: 'other', text: "What time are..." },
-                    ],
-                    3: [
-                        { id: 301, sender: 'other', text: "See you then." },
-                    ]
-                };
-
-                setTimeout(() => {
-                    setMessages(mockMessages[activeChat.id] || []);
-                    setLoading(false);
-                }, 200);
-            } catch (error) {
-                console.error("Failed to fetch messages:", error);
-                setLoading(false);
-            }
-        };
-
         fetchMessages();
     }, [activeChat]);
 
+    useEffect(() => {
+        if (!socket) return;
+
+        const handleNewMessage = (message) => {
+            // Only add messages RECEIVED by the current user (not sent by them)
+            // Messages sent by the user are already added via API response
+            if (activeChat &&
+                message.rideId === activeChat.rideId &&
+                message.senderId === activeChat.otherUserId &&
+                message.receiverId === user?._id) {
+                setMessages(prev => {
+                    const exists = prev.find(m => m._id === message._id);
+                    if (exists) return prev;
+                    return [...prev, message];
+                });
+            }
+        };
+
+        socket.on('newMessage', handleNewMessage);
+
+        return () => {
+            socket.off('newMessage', handleNewMessage);
+        };
+    }, [socket, activeChat, user]);
+
+    useEffect(() => {
+        // Scroll to bottom when messages update
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages]);
+
+    const handleSendMessage = async (e) => {
+        e.preventDefault();
+        if (!newMessage.trim() || !activeChat || sending) return;
+
+        const messageContent = newMessage.trim();
+        const tempId = `temp-${Date.now()}`;
+
+        // Optimistic UI update - show message immediately
+        const optimisticMessage = {
+            _id: tempId,
+            senderId: user._id,
+            receiverId: activeChat.otherUserId,
+            rideId: activeChat.rideId,
+            content: messageContent,
+            createdAt: new Date().toISOString(),
+            pending: true
+        };
+
+        setMessages(prev => [...prev, optimisticMessage]);
+        setNewMessage("");
+        setSending(true);
+
+        try {
+            const response = await api.post('/messages', {
+                rideId: activeChat.rideId,
+                receiverId: activeChat.otherUserId,
+                content: messageContent
+            });
+
+            // Replace optimistic message with real one
+            setMessages(prev => prev.map(msg =>
+                msg._id === tempId ? response.data.data : msg
+            ));
+        } catch (error) {
+            console.error("Failed to send message:", error);
+            // Remove optimistic message on error
+            setMessages(prev => prev.filter(msg => msg._id !== tempId));
+            setNewMessage(messageContent); // Restore message
+            alert('Failed to send message. Please try again.');
+        } finally {
+            setSending(false);
+        }
+    };
+
     if (!activeChat) {
         return (
-            <div className="container-right chat-content-announcement">
-                <p className="select-chat-message">Select a chat to view messages</p>
+            <div className={clsx(styles['container-right'], styles['chat-content-announcement'])}>
+                <div style={{ textAlign: 'center' }}>
+                    <MessageSquare size={48} color="var(--blue-pale)" strokeWidth={1.5} style={{ marginBottom: '1rem' }} />
+                    <p className={styles['select-chat-message']}>Select a conversation to start messaging</p>
+                </div>
             </div>
         );
     }
 
     return (
-        <div className="container-right">
-            <div className="banner">
-                <div className="avatar">{activeChat.initials}</div>
+        <div className={styles['container-right']}>
+            <div className={styles.banner}>
+                <div className={styles.avatar}>{activeChat.initials}</div>
                 <div>
-                    <span className="profile-name">{activeChat.name}</span>
-                    <span className="activity-status">Active now</span>
+                    <span className={styles['profile-name']}>{activeChat.name}</span>
+                    <span className={styles['activity-status']}>Active</span>
                 </div>
             </div>
-            <div className="messages-container">
-                {loading ? (
-                    <div className="loading-message">
+            <div className={styles['messages-container']}>
+                {loading && messages.length === 0 ? (
+                    <div className={styles['loading-message']}>
                         Loading messages...
                     </div>
+                ) : messages.length === 0 ? (
+                    <div className={styles['loading-message']}>
+                        <MessageSquare size={32} color="var(--blue-pale)" strokeWidth={1.5} style={{ marginBottom: '0.5rem' }} />
+                        <p>No messages yet. Start the conversation!</p>
+                    </div>
                 ) : (
-                    messages.map(msg => (
-                        <div key={msg.id} className={msg.sender === 'me' ? 'sent-message' : 'received-message'}>
-                            {msg.text}
-                        </div>
-                    ))
+                    messages.map(msg => {
+                        const isMe = msg.senderId === user?._id || msg.senderId?._id === user?._id;
+                        return (
+                            <div key={msg._id} className={isMe ? styles['sent-message'] : styles['received-message']}>
+                                {msg.content}
+                            </div>
+                        )
+                    })
                 )}
+                <div ref={messagesEndRef} />
             </div>
-            <div className="message-input-bar">
-                <input type="text" placeholder="Type a message..." />
-                <button className="send-btn">
-                    <Send className="icon-xlarge white" />
+            <form className={styles['message-input-bar']} onSubmit={handleSendMessage}>
+                <input
+                    type="text"
+                    placeholder="Type a message..."
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                />
+                <button type="submit" className={styles['send-btn']} disabled={!newMessage.trim()}>
+                    <Send className={clsx(styles['icon-xlarge'], styles.white)} />
                 </button>
-            </div>
+            </form>
         </div>
     );
 }

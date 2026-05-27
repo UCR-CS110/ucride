@@ -6,7 +6,7 @@ function Driver() {
 
     return (
         <>
-            <Outlet context={{ reviewCount, setReviewCount }} />
+            <Outlet context={{ reviewCount, setReviewCount }} /> // this needs to be updated
         </>        
     )
 }
