@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import "./NewRideForm.css";
+import api from "../../../utils/api";
+import styles from "./NewRideForm.module.css";
+import clsx from "clsx";
 
 const INITIAL_FORM = {
   date: "",
@@ -28,8 +30,10 @@ function NewRideForm() {
       errs.departureLocation = "Departure location is required.";
     if (!values.destination.trim())
       errs.destination = "Destination is required.";
-    if (values.departureLocation.trim() === values.destination.trim() &&
-      values.departureLocation.trim() !== "")
+    if (
+      values.departureLocation.trim() === values.destination.trim() &&
+      values.departureLocation.trim() !== ""
+    )
       errs.destination = "Destination must differ from departure.";
     if (!values.remainingSeats || Number(values.remainingSeats) < 1)
       errs.remainingSeats = "At least 1 seat is required.";
@@ -65,15 +69,10 @@ function NewRideForm() {
     };
 
     try {
-      const res = await fetch("/postNewRide", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      if (!res.ok) throw new Error("Server error");
+      await api.post("/rides", payload);
       navigate("/driver");
-    } catch {
-      // For demo purposes, just navigate back
+    } catch (error) {
+      console.error("Failed to post ride", error);
       navigate("/driver");
     } finally {
       setSubmitting(false);
@@ -81,27 +80,36 @@ function NewRideForm() {
   }
 
   return (
-    <div className="new-ride-page">
-      <div className="new-ride-card">
-        {/* Back */}
-        <div className="new-ride-card_back">
+    <div className={styles["new-ride-page"]}>
+      <div className={styles["new-ride-card"]}>
+        <div className={styles["new-ride-card_back"]}>
           <Link to="/driver">
-            <button className="back-btn">
-              <span className="back-btn_arrow"><ArrowLeft size={16} /></span>
+            <button className={styles["back-btn"]}>
+              <span className={styles["back-btn_arrow"]}>
+                <ArrowLeft size={16} />
+              </span>
               Back
             </button>
           </Link>
         </div>
 
-        <h1 className="new-ride-card_title">Post a New Ride</h1>
-        <p className="new-ride-card_subtitle">
-          Fill in the details below to offer seats to fellow Highlanders.
+        <h1 className={styles["new-ride-card_title"]}>Post a New Ride</h1>
+        <p className={styles["new-ride-card_subtitle"]}>
+          Fill in the details below to offer seats.
         </p>
 
-        <form onSubmit={handleSubmit} noValidate className="ride-form">
-          {/* Date & Time */}
-          <div className="ride-form_row">
-            <div className={`ride-form_field ${errors.date ? "ride-form_field--error" : ""}`}>
+        <form
+          onSubmit={handleSubmit}
+          noValidate
+          className={styles["ride-form"]}
+        >
+          <div className={styles["ride-form_row"]}>
+            <div
+              className={clsx(
+                styles["ride-form_field"],
+                errors.date && styles["ride-form_field--error"],
+              )}
+            >
               <label htmlFor="date">Departure Date</label>
               <input
                 type="date"
@@ -111,9 +119,16 @@ function NewRideForm() {
                 onChange={handleChange}
                 required
               />
-              {errors.date && <span className="ride-form_error">{errors.date}</span>}
+              {errors.date && (
+                <span className={styles["ride-form_error"]}>{errors.date}</span>
+              )}
             </div>
-            <div className={`ride-form_field ${errors.time ? "ride-form_field--error" : ""}`}>
+            <div
+              className={clsx(
+                styles["ride-form_field"],
+                errors.time && styles["ride-form_field--error"],
+              )}
+            >
               <label htmlFor="time">Departure Time</label>
               <input
                 type="time"
@@ -123,12 +138,18 @@ function NewRideForm() {
                 onChange={handleChange}
                 required
               />
-              {errors.time && <span className="ride-form_error">{errors.time}</span>}
+              {errors.time && (
+                <span className={styles["ride-form_error"]}>{errors.time}</span>
+              )}
             </div>
           </div>
 
-          {/* From */}
-          <div className={`ride-form_field ${errors.departureLocation ? "ride-form_field--error" : ""}`}>
+          <div
+            className={clsx(
+              styles["ride-form_field"],
+              errors.departureLocation && styles["ride-form_field--error"],
+            )}
+          >
             <label htmlFor="departureLocation">From</label>
             <input
               type="text"
@@ -140,12 +161,18 @@ function NewRideForm() {
               required
             />
             {errors.departureLocation && (
-              <span className="ride-form_error">{errors.departureLocation}</span>
+              <span className={styles["ride-form_error"]}>
+                {errors.departureLocation}
+              </span>
             )}
           </div>
 
-          {/* To */}
-          <div className={`ride-form_field ${errors.destination ? "ride-form_field--error" : ""}`}>
+          <div
+            className={clsx(
+              styles["ride-form_field"],
+              errors.destination && styles["ride-form_field--error"],
+            )}
+          >
             <label htmlFor="destination">To</label>
             <input
               type="text"
@@ -157,13 +184,19 @@ function NewRideForm() {
               required
             />
             {errors.destination && (
-              <span className="ride-form_error">{errors.destination}</span>
+              <span className={styles["ride-form_error"]}>
+                {errors.destination}
+              </span>
             )}
           </div>
-
-          {/* Seats & Price */}
-          <div className="ride-form_row">
-            <div className={`ride-form_field ${errors.remainingSeats ? "ride-form_field--error" : ""}`}>
+          
+          <div className={styles["ride-form_row"]}>
+            <div
+              className={clsx(
+                styles["ride-form_field"],
+                errors.remainingSeats && styles["ride-form_field--error"],
+              )}
+            >
               <label htmlFor="remainingSeats">Available Seats</label>
               <input
                 type="number"
@@ -176,10 +209,17 @@ function NewRideForm() {
                 required
               />
               {errors.remainingSeats && (
-                <span className="ride-form_error">{errors.remainingSeats}</span>
+                <span className={styles["ride-form_error"]}>
+                  {errors.remainingSeats}
+                </span>
               )}
             </div>
-            <div className={`ride-form_field ${errors.seatPrice ? "ride-form_field--error" : ""}`}>
+            <div
+              className={clsx(
+                styles["ride-form_field"],
+                errors.seatPrice && styles["ride-form_field--error"],
+              )}
+            >
               <label htmlFor="seatPrice">Price per Seat ($)</label>
               <input
                 type="number"
@@ -193,14 +233,16 @@ function NewRideForm() {
                 required
               />
               {errors.seatPrice && (
-                <span className="ride-form_error">{errors.seatPrice}</span>
+                <span className={styles["ride-form_error"]}>
+                  {errors.seatPrice}
+                </span>
               )}
             </div>
           </div>
 
           <button
             type="submit"
-            className="ride-form_submit"
+            className={styles["ride-form_submit"]}
             disabled={submitting}
           >
             {submitting ? "Posting…" : "Post Ride"}

@@ -1,58 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import { ArrowRight, Clock, Users, Banknote, ClipboardList, Plus } from "lucide-react";
-import "./DriverMyRides.css";
-
-const mockRides = [
-  {
-    _id: "60d21b4667d0d8992e610c85",
-    driverId: {
-      _id: "60d21b4667d0d8992e610c81",
-      fName: "Alice",
-      lName: "Johnson",
-      profilePictureUrl: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
-      avgRating: 4.8,
-    },
-    departureLocation: "Riverside, CA",
-    destination: "UC Riverside",
-    departureTime: "2026-05-20T08:30:00.000Z",
-    remainingSeats: 3,
-    seatPrice: 5.0,
-    status: "open",
-  },
-  {
-    _id: "60d21b4667d0d8992e610c86",
-    driverId: {
-      _id: "60d21b4667d0d8992e610c81",
-      fName: "Alice",
-      lName: "Johnson",
-      profilePictureUrl: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
-      avgRating: 4.8,
-    },
-    departureLocation: "UC Riverside",
-    destination: "Los Angeles, CA",
-    departureTime: "2026-05-22T14:00:00.000Z",
-    remainingSeats: 1,
-    seatPrice: 12.0,
-    status: "full",
-  },
-  {
-    _id: "60d21b4667d0d8992e610c87",
-    driverId: {
-      _id: "60d21b4667d0d8992e610c81",
-      fName: "Alice",
-      lName: "Johnson",
-      profilePictureUrl: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
-      avgRating: 4.8,
-    },
-    departureLocation: "UC Riverside",
-    destination: "San Diego, CA",
-    departureTime: "2026-05-25T09:00:00.000Z",
-    remainingSeats: 4,
-    seatPrice: 15.0,
-    status: "open",
-  },
-];
+import api from "../../../utils/api";
+import { useAuth } from "../../../context/useAuth";
+import styles from "./DriverMyRides.module.css";
+import clsx from "clsx";
 
 const STATUS_LABELS = {
   open: "Open",
@@ -73,41 +25,48 @@ function formatDepartureTime(isoString) {
   });
 }
 
-function RideCard({ ride }) {
+function RideCard({ ride, onEdit, onDelete, onStatusChange }) {
   return (
-    <div className={`ride-card ride-card--${ride.status}`}>
-      <div className="ride-card_route">
-        <div className="ride-card_location">
-          <span className="ride-card_place">{ride.departureLocation}</span>
+    <div className={clsx(styles['ride-card'], styles[`ride-card--${ride.status}`])}>
+      <div className={styles['ride-card_route']}>
+        <div className={styles['ride-card_location']}>
+          <span className={styles['ride-card_place']}>{ride.departureLocation}</span>
         </div>
-        <div className="ride-card_arrow"><ArrowRight size={16} /></div>
-        <div className="ride-card_location">
-          <span className="ride-card_place">{ride.destination}</span>
+        <div className={styles['ride-card_arrow']}><ArrowRight size={16} /></div>
+        <div className={styles['ride-card_location']}>
+          <span className={styles['ride-card_place']}>{ride.destination}</span>
         </div>
       </div>
 
-      <div className="ride-card_meta">
-        <div className="ride-card_meta-item">
-          <span className="ride-card_meta-icon"><Clock size={16} /></span>
+      <div className={styles['ride-card_meta']}>
+        <div className={styles['ride-card_meta-item']}>
+          <span className={styles['ride-card_meta-icon']}><Clock size={16} /></span>
           <span>{formatDepartureTime(ride.departureTime)}</span>
         </div>
-        <div className="ride-card_meta-item">
-          <span className="ride-card_meta-icon"><Users size={16} /></span>
+        <div className={styles['ride-card_meta-item']}>
+          <span className={styles['ride-card_meta-icon']}><Users size={16} /></span>
           <span>{ride.remainingSeats} seat{ride.remainingSeats !== 1 ? "s" : ""} left</span>
         </div>
-        <div className="ride-card_meta-item">
-          <span className="ride-card_meta-icon"><Banknote size={16} /></span>
+        <div className={styles['ride-card_meta-item']}>
+          <span className={styles['ride-card_meta-icon']}><Banknote size={16} /></span>
           <span>${ride.seatPrice.toFixed(2)} / seat</span>
         </div>
       </div>
 
-      <div className="ride-card_footer">
-        <span className={`ride-card_status ride-card_status--${ride.status}`}>
-          {STATUS_LABELS[ride.status] ?? ride.status}
-        </span>
-        <div className="ride-card_actions">
-          <button className="ride-card_btn ride-card_btn--edit">Edit</button>
-          <button className="ride-card_btn ride-card_btn--delete">Delete</button>
+      <div className={styles['ride-card_footer']}>
+        <select 
+          className={clsx(styles['ride-card_status'], styles[`ride-card_status--${ride.status}`])}
+          value={ride.status}
+          onChange={(e) => onStatusChange(ride._id, e.target.value)}
+          style={{ border: 'none', outline: 'none', cursor: 'pointer' }}
+        >
+          {Object.entries(STATUS_LABELS).map(([val, label]) => (
+            <option key={val} value={val}>{label}</option>
+          ))}
+        </select>
+        <div className={styles['ride-card_actions']}>
+          <button className={clsx(styles['ride-card_btn'], styles['ride-card_btn--edit'])} onClick={() => onEdit(ride._id, ride.seatPrice)}>Edit Price</button>
+          <button className={clsx(styles['ride-card_btn'], styles['ride-card_btn--delete'])} onClick={() => onDelete(ride._id)}>Delete</button>
         </div>
       </div>
     </div>
@@ -116,71 +75,133 @@ function RideCard({ ride }) {
 
 function DriverMyRides() {
   const { reviewCount } = useOutletContext();
-  const [rides] = useState(mockRides);
+  const { user } = useAuth();
+  const canPostRides = user?.role === 'verified_driver' || user?.role === 'admin';
+  const [rides, setRides] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchMyRides = async () => {
+      if (!user) return;
+      setLoading(true);
+      try {
+        const response = await api.get('/rides', {
+          params: { driverId: user._id }
+        });
+        setRides(response.data.data);
+      } catch (error) {
+        console.error("Failed to fetch my rides:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchMyRides();
+  }, [user]);
+
+  const handleEdit = async (id, currentPrice) => {
+    const newPrice = window.prompt("Enter new seat price:", currentPrice);
+    if (newPrice !== null && !isNaN(Number(newPrice))) {
+      try {
+        await api.put(`/rides/${id}`, { seatPrice: Number(newPrice) });
+        setRides(prev => prev.map(r => r._id === id ? { ...r, seatPrice: Number(newPrice) } : r));
+      } catch (error) {
+        console.error("Failed to update ride:", error);
+      }
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this ride?")) return;
+    try {
+      await api.delete(`/rides/${id}`);
+      setRides(prev => prev.filter(r => r._id !== id));
+    } catch (error) {
+      console.error("Failed to delete ride:", error);
+    }
+  };
+
+  const handleStatusChange = async (id, newStatus) => {
+    try {
+      await api.put(`/rides/${id}/status`, { status: newStatus });
+      setRides(prev => prev.map(r => r._id === id ? { ...r, status: newStatus } : r));
+    } catch (error) {
+      console.error("Failed to update status:", error);
+    }
+  };
 
   const openRides = rides.filter((r) => r.status === "open").length;
 
   return (
-    <div className="my-rides-page">
-      {/* Header */}
-      <div className="my-rides-header">
-        <div className="my-rides-header_text">
-          <h1 className="my-rides-header_title">My Rides</h1>
-          <p className="my-rides-header_subtitle">
+    <div className={styles['my-rides-page']}>
+      <div className={styles['my-rides-header']}>
+        <div className={styles['my-rides-header_text']}>
+          <h1 className={styles['my-rides-header_title']}>My Rides</h1>
+          <p className={styles['my-rides-header_subtitle']}>
             Manage your offerings and requests
           </p>
         </div>
-        <Link to="/createNewRide">
-          <button className="post-ride-btn"><Plus size={16} /> Post New Ride</button>
-        </Link>
+        {canPostRides ? (
+          <Link to="/createNewRide">
+            <button className={styles['post-ride-btn']}><Plus size={16} /> Post New Ride</button>
+          </Link>
+        ) : (
+          <span className={styles['unverified-notice']}>Get driver verification to post rides</span>
+        )}
       </div>
 
-      {/* Stats row */}
-      <div className="my-rides-stats">
-        <div className="stat-card">
-          <span className="stat-card_value">{rides.length}</span>
-          <span className="stat-card_label">Total Rides</span>
+      <div className={styles['my-rides-stats']}>
+        <div className={styles['stat-card']}>
+          <span className={styles['stat-card_value']}>{rides.length}</span>
+          <span className={styles['stat-card_label']}>Total Rides</span>
         </div>
-        <div className="stat-card">
-          <span className="stat-card_value">{openRides}</span>
-          <span className="stat-card_label">Open</span>
+        <div className={styles['stat-card']}>
+          <span className={styles['stat-card_value']}>{openRides}</span>
+          <span className={styles['stat-card_label']}>Open</span>
         </div>
-        <div className="stat-card stat-card--alert">
-          <span className="stat-card_value">{reviewCount}</span>
-          <span className="stat-card_label">Pending Reviews</span>
+        <div className={clsx(styles['stat-card'], styles['stat-card--alert'])}>
+          <span className={styles['stat-card_value']}>{reviewCount}</span>
+          <span className={styles['stat-card_label']}>Pending Reviews</span>
         </div>
       </div>
 
-      {/* Review request banner */}
       {reviewCount > 0 && (
-        <div className="review-banner">
-          <div className="review-banner_text">
-            <span className="review-banner_icon" style={{ display: 'inline-flex', alignItems: 'center' }}><ClipboardList size={24} /></span>
+        <div className={styles['review-banner']}>
+          <div className={styles['review-banner_text']}>
+            <span className={styles['review-banner_icon']} style={{ display: 'inline-flex', alignItems: 'center' }}><ClipboardList size={24} /></span>
             <span>
               You have <strong>{reviewCount}</strong> ride request
               {reviewCount !== 1 ? "s" : ""} waiting for your review.
             </span>
           </div>
           <Link to="/driver/requestReview">
-            <button className="review-banner_btn">Review Requests</button>
+            <button className={styles['review-banner_btn']}>Review Requests</button>
           </Link>
         </div>
       )}
 
-      {/* Rides list */}
-      <div className="rides-section">
-        <h2 className="rides-section_title">Your Posted Rides</h2>
-        {rides.length === 0 ? (
-          <div className="rides-empty">
+      <div className={styles['rides-section']}>
+        <h2 className={styles['rides-section_title']}>Your Posted Rides</h2>
+        {loading ? (
+          <div className={styles['rides-empty']}>Loading your rides...</div>
+        ) : rides.length === 0 ? (
+          <div className={styles['rides-empty']}>
             <p>You haven't posted any rides yet.</p>
-            <Link to="/createNewRide">
-              <button className="post-ride-btn">Post Your First Ride</button>
-            </Link>
+            {canPostRides && (
+              <Link to="/createNewRide">
+                <button className={styles['post-ride-btn']}>Post Your First Ride</button>
+              </Link>
+            )}
           </div>
         ) : (
-          <div className="rides-grid">
+          <div className={styles['rides-grid']}>
             {rides.map((ride) => (
-              <RideCard key={ride._id} ride={ride} />
+              <RideCard 
+                key={ride._id} 
+                ride={ride} 
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                onStatusChange={handleStatusChange}
+              />
             ))}
           </div>
         )}

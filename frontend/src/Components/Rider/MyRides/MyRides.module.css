@@ -1,0 +1,98 @@
+.my-rides {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.rides-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 48px 20px;
+  background: var(--blue-lightest);
+  border: 1.5px dashed var(--blue-pale);
+  border-radius: 1rem;
+  color: var(--text-light);
+}
+
+.empty-icon {
+  display: block;
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+
+.my-ride-card {
+  background: var(--white);
+  border: 1.5px solid var(--blue-pale);
+  border-left: 4px solid var(--blue-bright);
+  border-radius: 0.75rem;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.my-ride-route {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 4px;
+}
+
+.my-ride-time {
+  font-size: 0.85rem;
+  color: var(--text-mid);
+}
+
+.my-ride-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.my-ride-price {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--blue-deep);
+}
+
+.requested-badge {
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.status-pending {
+  background: var(--blue-lightest);
+  color: var(--blue-deep);
+}
+
+.status-accepted {
+  background: #e6f9ef;
+  color: #1a7f4e;
+}
+
+.status-declined {
+  background: #fee2e2;
+  color: #dc2626;
+}
+.arrow-icon {
+    color: var(--blue-bright);
+    stroke-width: 2.5;
+}

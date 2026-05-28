@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './RiderSearchFilter.css';
+import styles from './RiderSearchFilter.module.css';
 
 function RiderSearchFilter() {
   const [pickup, setPickup] = useState('');
@@ -11,9 +11,9 @@ function RiderSearchFilter() {
   };
 
   return (
-    <div className="rides-search-filter">
-      <div className="search-inputs">
-        <div className="input-group">
+    <div className={styles['rides-search-filter']}>
+      <div className={styles['search-inputs']}>
+        <div className={styles['input-group']}>
           <label htmlFor="pickup">PickUp Location</label>
           <input
             type="text"
@@ -24,7 +24,7 @@ function RiderSearchFilter() {
           />
         </div>
         
-        <div className="input-group">
+        <div className={styles['input-group']}>
           <label htmlFor="dropoff">DropOff Location</label>
           <input
             type="text"
@@ -35,7 +35,7 @@ function RiderSearchFilter() {
           />
         </div>
 
-        <div className="input-group">
+        <div className={styles['input-group']}>
           <label htmlFor="day">Day(s)</label>
           <select
             id="day"
@@ -54,7 +54,7 @@ function RiderSearchFilter() {
         </div>
       </div>
 
-      <button className="search-button" onClick={handleSearch}>
+      <button className={styles['search-button']} onClick={handleSearch}>
         Search
       </button>
     </div>

@@ -1,14 +1,15 @@
 import React from 'react';
 import { Calendar, Clock, ArrowRight } from 'lucide-react';
-import '../RidesFilter/RidesFilter.css'
+import styles from './RideCard.module.css';
+import clsx from 'clsx';
 
 function SeatDots({ remaining, total = 4 }) {
   return (
-    <span className="seat-dots">
+    <span className={styles['seat-dots']}>
       {Array.from({ length: total }).map((_, i) => (
-        <span key={i} className={`dot${i < remaining ? " dot--filled" : ""}`} />
+        <span key={i} className={clsx(styles.dot, i < remaining && styles['dot--filled'])} />
       ))}
-      <span className="seat-label">{remaining} left</span>
+      <span className={styles['seat-label']}>{remaining} left</span>
     </span>
   );
 }
@@ -19,39 +20,39 @@ function RideCard({ ride, onRequest, requested }) {
   const time = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
   return (
-    <div className="rider-ride-card">
-      <div className="driver-col">
+    <div className={styles['rider-ride-card']}>
+      <div className={styles['driver-col']}>
         <img
-          src={ride.driverId.profilePictureUrl}
-          alt={ride.driverId.fName}
-          className="profile-pic"
+          src={ride.driverId?.profilePictureUrl}
+          alt={ride.driverId?.fName}
+          className={styles['profile-pic']}
         />
-        <div className="driver-name">
-          <span className="driver-fname">{ride.driverId.fName}</span>
-          <span className="driver-lname">{ride.driverId.lName}</span>
+        <div className={styles['driver-name']}>
+          <span className={styles['driver-fname']}>{ride.driverId?.fName}</span>
+          <span className={styles['driver-lname']}>{ride.driverId?.lName}</span>
         </div>
-        <div className="driver-rating">
-          <span className="rating-value">{ride.driverId.avgRating.toFixed(1)} ★</span>
+        <div className={styles['driver-rating']}>
+          <span className={styles['rating-value']}>{ride.driverId?.avgRating != null ? ride.driverId.avgRating.toFixed(1) : "N/A"} ★</span>
         </div>
       </div>
 
-      <div className="card-divider" />
+      <div className={styles['card-divider']} />
 
-      {/* Route and details */}
-      <div className="rider-ride-details">
-        <div className="route-row">
-          <span className="location-badge location-badge--from">{ride.departureLocation}</span>
-          <ArrowRight className="arrow-icon" size={18} color="var(--blue-bright)" strokeWidth={2.5} />
-          <span className="location-badge location-badge--to">{ride.destination}</span>
+      
+      <div className={styles['rider-ride-details']}>
+        <div className={styles['route-row']}>
+          <span className={clsx(styles['location-badge'], styles['location-badge--from'])}>{ride.departureLocation}</span>
+          <ArrowRight className={styles['arrow-icon']} size={18} />
+          <span className={clsx(styles['location-badge'], styles['location-badge--to'])}>{ride.destination}</span>
         </div>
 
-        <div className="meta-row">
+        <div className={styles['meta-row']}>
 
-          <span className="meta-item">
+          <span className={styles['meta-item']}>
             <Calendar size={14} color="var(--blue-bright)" strokeWidth={2} />
             {date}
           </span>
-          <span className="meta-item">
+          <span className={styles['meta-item']}>
             <Clock size={14} color="var(--blue-bright)" strokeWidth={2} />
             {time}
           </span>
@@ -60,14 +61,14 @@ function RideCard({ ride, onRequest, requested }) {
         <SeatDots remaining={ride.remainingSeats} total={4} />
       </div>
 
-      {/* Price and CTA */}
-      <div className="price-col">
-        <div className="price-display">
-          <span className="price-amount">${ride.seatPrice.toFixed(0)}</span>
-          <span className="price-label">per seat</span>
+      
+      <div className={styles['price-col']}>
+        <div className={styles['price-display']}>
+          <span className={styles['price-amount']}>${ride.seatPrice.toFixed(0)}</span>
+          <span className={styles['price-label']}>per seat</span>
         </div>
         <button
-          className={`request-btn${requested ? " request-btn--done" : ""}`}
+          className={clsx(styles['request-btn'], requested && styles['request-btn--done'])}
           onClick={() => onRequest(ride._id)}
           disabled={requested}
         >

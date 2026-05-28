@@ -1,6 +1,7 @@
 import React from 'react'
 import { Search, Car } from 'lucide-react'
-import './RiderNav.css'
+import styles from './RiderNav.module.css'
+import clsx from 'clsx'
 
 function RiderNav({view, updateViewMode}) {
 
@@ -13,16 +14,16 @@ function RiderNav({view, updateViewMode}) {
   }
 
   return (
-    <div className='rider-nav-container'>
+    <div className={styles['rider-nav-container']}>
       <button 
-        className={`rider-button ${view === 'FindRides' ? 'active' : ''}`} 
+        className={clsx(styles['rider-button'], view === 'FindRides' && styles.active)} 
         onClick={handleFindRidesClick}
       >
         <Search width={20}/>
         <span>Find Rides</span>
       </button>
       <button
-        className={`rider-button ${view === 'MyRides' ? 'active' : ''}`} 
+        className={clsx(styles['rider-button'], view === 'MyRides' && styles.active)} 
         onClick={handleMyRidesClick}
       >
         <Car width={24} />

@@ -1,50 +1,47 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import './ChatSelector.css';
+import { useState, useEffect, useCallback } from 'react';
+import api from '../../../utils/api';
+import styles from './ChatSelector.module.css';
+import clsx from 'clsx';
+import { Inbox } from 'lucide-react';
 
-function ChatSelector({ activeChat, setActiveChat }) {
+function formatTime(isoString) {
+    if (!isoString) return '';
+    const date = new Date(isoString);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
+function getInitials(fName, lName) {
+    return `${fName?.charAt(0) || ''}${lName?.charAt(0) || ''}`.toUpperCase();
+}
+
+function ChatSelector({ activeChat, setActiveChat, socket }) {
     const [chats, setChats] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // hook up to backend api once it is running
     const fetchChats = useCallback(async () => {
         setLoading(true);
         try {
-            const mockData = [
-                {
-                    id: 1,
-                    initials: 'SJ',
-                    name: 'Sarah Jade',
-                    time: '10:24AM',
-                    lastMessage: 'Thanks for the ride!',
-                },
-                {
-                    id: 2,
-                    initials: 'MC',
-                    name: 'Mike Chen',
-                    time: '6:32PM',
-                    lastMessage: 'What time are...',
-                },
-                {
-                    id: 3,
-                    initials: 'JD',
-                    name: 'John Doe',
-                    time: 'Yesterday',
-                    lastMessage: 'See you then.',
-                }
-            ];
+            const response = await api.get('/messages/conversation');
+            const conversations = response.data.data.map(conv => ({
+                id: conv.id,
+                rideId: conv.rideId._id,
+                otherUserId: conv.otherUser._id,
+                initials: getInitials(conv.otherUser.fName, conv.otherUser.lName),
+                name: `${conv.otherUser.fName} ${conv.otherUser.lName}`,
+                time: formatTime(conv.time),
+                lastMessage: conv.lastMessage,
+            }));
             
-            setTimeout(() => {
-                setChats(mockData);
-                setActiveChat(prev => {
-                    if (mockData.length > 0 && !prev) {
-                        return mockData[0];
-                    }
-                    return prev;
-                });
-                setLoading(false);
-            }, 200);
+            setChats(conversations);
+            setActiveChat(prev => {
+                if (conversations.length > 0 && !prev) {
+                    return conversations[0];
+                }
+                return prev;
+            });
         } catch (error) {
             console.error("Failed to fetch chats:", error);
+        } finally {
             setLoading(false);
         }
     }, [setActiveChat]);
@@ -53,35 +50,77 @@ function ChatSelector({ activeChat, setActiveChat }) {
         fetchChats();
     }, [fetchChats]);
 
+    useEffect(() => {
+        if (!socket) return;
+
+        const handleNewMessage = (message) => {
+            setChats(prevChats => {
+                const chatIndex = prevChats.findIndex(c => 
+                    c.rideId === message.rideId && 
+                    (c.otherUserId === message.senderId || c.otherUserId === message.receiverId)
+                );
+                
+                if (chatIndex > -1) {
+                    // Update existing chat
+                    const updatedChat = {
+                        ...prevChats[chatIndex],
+                        lastMessage: message.content,
+                        time: formatTime(message.createdAt)
+                    };
+                    const newChats = [...prevChats];
+                    newChats.splice(chatIndex, 1);
+                    return [updatedChat, ...newChats];
+                } else {
+                    // New conversation - refetch to get user details
+                    fetchChats();
+                    return prevChats;
+                }
+            });
+        };
+
+        socket.on('newMessage', handleNewMessage);
+        return () => {
+            socket.off('newMessage', handleNewMessage);
+        };
+    }, [socket, fetchChats]);
+
     const handleChatClick = (chat) => {
         setActiveChat(chat);
     };
 
     return (
-        <div className="container-left">
+        <div className={styles['container-left']}>
             <h1>Messages</h1>
             <search>
                 <input type="search" id="site-search" name="q" placeholder="Search conversations..." />
             </search>
-            <div className="directmessage-container">
+            <div className={styles['directmessage-container']}>
                 {loading ? (
-                    <div className="loading-text">
+                    <div className={styles['loading-text']}>
                         Loading...
+                    </div>
+                ) : chats.length === 0 ? (
+                    <div className={styles['loading-text']}>
+                        <Inbox size={40} color="var(--blue-pale)" strokeWidth={1.5} style={{ marginBottom: '0.75rem' }} />
+                        <p style={{ margin: 0, fontWeight: 500 }}>No conversations yet</p>
+                        <p style={{ margin: '0.5rem 0 0', fontSize: '0.8125rem', color: 'var(--text-light)' }}>
+                            Messages will appear here
+                        </p>
                     </div>
                 ) : (
                     chats.map(chat => (
                         <div 
                             key={chat.id}
-                            className={`directmessage ${activeChat?.id === chat.id ? 'active' : ''}`}
+                            className={clsx(styles.directmessage, activeChat?.id === chat.id && styles.active)}
                             onClick={() => handleChatClick(chat)}
                         >
-                            <div className="avatar">{chat.initials}</div>
-                            <div className="right">
-                                <div className="top">
-                                    <span className="profile-name">{chat.name}</span>
-                                    <span className="time-of-message">{chat.time}</span>
+                            <div className={styles.avatar}>{chat.initials}</div>
+                            <div className={styles.right}>
+                                <div className={styles.top}>
+                                    <span className={styles['profile-name']}>{chat.name}</span>
+                                    <span className={styles['time-of-message']}>{chat.time}</span>
                                 </div>
-                                <div className="bottom">{chat.lastMessage}</div>
+                                <div className={styles.bottom}>{chat.lastMessage}</div>
                             </div>
                         </div>
                     ))

@@ -1,7 +1,7 @@
-import { useState } from 'react'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
 
-import {Routes, Route, BrowserRouter, Navigate} from "react-router-dom"
+import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import Layout from "./pages/Layout.jsx";
 import Driver from "./pages/Driver/Driver.jsx";
 import DriverMyRides from "./Components/Driver/DriverMyRides/DriverMyRides.jsx";
@@ -13,7 +13,8 @@ import Signin from "./pages/Signin/Signin.jsx";
 import Messages from "./pages/Messages/Messages.jsx";
 import Register from "./pages/Register/Register.jsx";
 import Home from "./pages/Home/Home.jsx";
-import { AuthProvider } from './context/AuthContext.jsx';
+import { AuthProvider } from "./context/AuthContext.jsx";
+import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute.jsx";
 
 function App() {
   return (
@@ -24,22 +25,57 @@ function App() {
             <Route path="/" element={<Layout />}>
               <Route index element={<Home />} />
               <Route path="home" element={<Home />} />
-              <Route path="driver" element={<Driver />}>
+              <Route
+                path="driver"
+                element={
+                  <ProtectedRoute>
+                    <Driver />
+                  </ProtectedRoute>
+                }
+              >
                 <Route index element={<DriverMyRides />} />
                 <Route path="requestReview" element={<RequestReview />} />
               </Route>
-              <Route path="createNewRide" element={<CreateNewRide />} />
-              <Route path="admin" element={<Admin />} />
-              <Route path="rider" element={<Rider />} />
+              <Route
+                path="createNewRide"
+                element={
+                  <ProtectedRoute allowedRoles={["verified_driver", "admin"]}>
+                    <CreateNewRide />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="admin"
+                element={
+                  <ProtectedRoute allowedRoles={["admin"]}>
+                    <Admin />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="rider"
+                element={
+                  <ProtectedRoute>
+                    <Rider />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="messages"
+                element={
+                  <ProtectedRoute>
+                    <Messages />
+                  </ProtectedRoute>
+                }
+              />
               <Route path="signin" element={<Signin />} />
-              <Route path="messages" element={<Messages />} />
               <Route path="register" element={<Register />} />
             </Route>
           </Routes>
         </BrowserRouter>
       </AuthProvider>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
