@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser');
 const connectDB = require('./config/db');
 const http = require('http');
 const { Server } = require('socket.io');
+const path = require("path");
+
 
 dotenv.config();
 if (process.env.NODE_ENV !== 'test') {
@@ -55,6 +57,7 @@ io.on('connection', (socket) => {
   });
 });
 
+
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const rideRoutes = require('./routes/rideRoutes');
@@ -70,6 +73,8 @@ app.use('/api/requests', requestRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/admin', adminRoutes);
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+
 
 app.get('/', (req, res) => {
   res.send('UCRide API is running...');

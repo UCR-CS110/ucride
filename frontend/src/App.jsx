@@ -13,6 +13,8 @@ import Signin from "./pages/Signin/Signin.jsx";
 import Messages from "./pages/Messages/Messages.jsx";
 import Register from "./pages/Register/Register.jsx";
 import Home from "./pages/Home/Home.jsx";
+import ProfileSettingPage from "./pages/ProfileSetting/ProfileSetting.jsx";
+import ProfilePage from "./pages/Profile/Profile.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute.jsx";
 
@@ -68,6 +70,22 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+
+              <Route
+                path="profileSetting"
+                element={
+                  <ProtectedRoute>
+                    <ProfileSettingPage />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/profile/:userId"
+                element={<ProfilePage />}
+              />
+           
+             
               <Route path="signin" element={<Signin />} />
               <Route path="register" element={<Register />} />
             </Route>

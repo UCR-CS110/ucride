@@ -69,15 +69,31 @@ export default function RidesFilter({ view = "FindRides" }) {
 
   const handleRequest = async (id) => {
     setRequestError("");
+
     try {
-      await api.post('/requests', { rideId: id });
+      await api.post(`/rides/${id}/request`);
+
       setRequestedIds((prev) => {
         const next = new Set(prev);
         next.add(id);
         return next;
       });
+
     } catch (error) {
-      setRequestError(error.response?.data?.message || "Failed to request ride.");
+      const message = error.response?.data?.message;
+
+      if (message === "Already requested this ride") {
+        setRequestedIds((prev) => {
+          const next = new Set(prev);
+          next.add(id); 
+          return next;
+        });
+
+        alert("You already requested this ride");
+        return;
+      }
+
+      setRequestError(message || "Failed to request ride.");
     }
   };
 
