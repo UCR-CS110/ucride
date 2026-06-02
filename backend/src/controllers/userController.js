@@ -71,6 +71,7 @@ exports.getUserById = async (req, res) => {
 
     const ridesGiven = await Ride.countDocuments({
       driverId: user._id,
+      status: "completed",
     });
 
     const reviews = await Review.find({

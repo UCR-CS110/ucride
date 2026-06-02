@@ -1,5 +1,5 @@
 const express = require('express');
-const { createRide, getRides, updateRideStatus, updateRide, deleteRide, requestRide, getRideRequests, updateRequestStatus,  } = require('../controllers/rideController');
+const { createRide, getRides, updateRideStatus, updateRide, deleteRide, requestRide, getRideRequests, updateRequestStatus, getMyAcceptedRides } = require('../controllers/rideController');
 const { protect, authorize } = require('../middleware/authMiddleware');
 
 const router = express.Router();
@@ -12,5 +12,6 @@ router.delete('/:id', protect, authorize('verified_driver', 'admin'), deleteRide
 router.post("/:id/request", protect, requestRide);
 router.get("/requests", protect, getRideRequests);
 router.put("/requests/:id/status", protect, updateRequestStatus);
+router.get("/my-rides", protect, getMyAcceptedRides);
 
 module.exports = router;

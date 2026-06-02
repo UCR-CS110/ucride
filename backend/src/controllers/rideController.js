@@ -1,5 +1,6 @@
 const Ride = require("../models/Ride");
 const User = require("../models/User");
+const Review = require("../models/Review");
 
 exports.createRide = async (req, res) => {
   try {
@@ -250,5 +251,46 @@ exports.updateRequestStatus = async (req, res) => {
 
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+exports.getMyAcceptedRides = async (req, res) => {
+  try {
+    const rides = await Ride.find({
+      requests: {
+        $elemMatch: {
+          userId: req.user.id,
+          status: "accepted"
+        }
+      }
+    }).populate("driverId", "fName lName avgRating profilePicture");
+
+    const reviews = await Review.find({
+      reviewerId: req.user.id
+    });
+
+    const result = rides.map((ride) => {
+      const reviewed = reviews.some(
+        (r) =>
+          r.rideId?.toString() === ride._id.toString() &&
+          r.revieweeId?.toString() === ride.driverId._id.toString()
+      );
+
+      return {
+        ...ride.toObject(),
+        reviewed
+      };
+    });
+
+    return res.json({
+      success: true,
+      data: result
+    });
+
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: err.message
+    });
   }
 };

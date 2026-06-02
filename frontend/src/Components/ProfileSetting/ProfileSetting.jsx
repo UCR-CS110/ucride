@@ -2,11 +2,13 @@ import { useState } from "react";
 import styles from "./ProfileSetting.module.css";
 import { useEffect } from "react";
 import api from "../../utils/api";
+import Profile from "../Profile/Profile";
 
 function ProfileSetting() {
   const [activeTab, setActiveTab] = useState("profile");
   const [preview, setPreview] = useState(null);
   const DEFAULT_IMAGE ="https://cdn-icons-png.flaticon.com/512/149/149071.png";
+  const [publicProfile, setPublicProfile] = useState(null);
 
   
   const [formData, setFormData] = useState({
@@ -72,19 +74,24 @@ function ProfileSetting() {
       try {
         const res = await api.get("/users/profile");
 
+        const userData = res.data.data;
+        const userId = userData._id;
+
         setFormData((prev) => ({
           ...prev,
-          ...res.data.data,
-          profilePicture:
-            res.data.data.profilePicture || DEFAULT_IMAGE,
+          ...userData,
+          profilePicture: userData.profilePicture || DEFAULT_IMAGE,
         }));
 
         setDriverData({
-          vehicleMake: res.data.data.vehicle?.vehicleMake || "",
-          vehicleModel: res.data.data.vehicle?.vehicleModel || "",
-          vehicleColor: res.data.data.vehicle?.vehicleColor || "",
-          licensePlate: res.data.data.vehicle?.licensePlate || "",
+          vehicleMake: userData.vehicle?.vehicleMake || "",
+          vehicleModel: userData.vehicle?.vehicleModel || "",
+          vehicleColor: userData.vehicle?.vehicleColor || "",
+          licensePlate: userData.vehicle?.licensePlate || "",
         });
+
+        const publicRes = await api.get(`/users/${userId}`);
+        setPublicProfile(publicRes.data.data);
 
       } catch (err) {
         console.log(err);
@@ -140,15 +147,20 @@ function ProfileSetting() {
     }
   };
 
-  
-
   return (
     <div className={styles.container}>
       <h1>Profile Settings</h1>
-
       <div className={styles.content}>
      
         <div className={styles.sidebar}>
+          <button
+            className={`${styles.btn} ${
+              activeTab === "preview" ? styles.active : ""
+            }`}
+            onClick={() => setActiveTab("preview")}
+          >
+            Profile Preview
+          </button>
           <button
             className={`${styles.btn} ${
               activeTab === "profile" ? styles.active : ""
@@ -179,6 +191,12 @@ function ProfileSetting() {
 
      
         <div className={styles.panel}>
+          {activeTab === "preview" && (
+            <div className={styles.previewWrapper}>
+              <Profile overrideUserId={formData._id} />
+            </div>
+          )}
+
           {activeTab === "profile" && (
             <>
               <h2>Profile Information</h2>
