@@ -5,6 +5,8 @@
   color: var(--text-dark);
   padding: 20px;
   min-height: 100vh;
+  border-radius: 2rem;
+  margin-top:1.5rem;
 }
 
 .content {

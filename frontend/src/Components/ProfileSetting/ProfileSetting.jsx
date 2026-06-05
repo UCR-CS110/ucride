@@ -50,20 +50,13 @@ function ProfileSetting() {
 
       const newPic = res.data.data.profilePicture;
 
-      setFormData((prev) => ({
+      setUser((prev) => ({
         ...prev,
         profilePicture: newPic,
       }));
 
- 
-      if (setUser) {
-        setUser((prev) => ({
-          ...prev,
-          profilePicture: newPic,
-        }));
-      }
+      window.dispatchEvent(new Event("profileUpdated"));
 
-      window.location.reload(); 
     } catch (err) {
       console.error(err);
     }
@@ -203,12 +196,9 @@ function ProfileSetting() {
 
              
               <div className={styles.profilePicBox}>
-                <img className={styles.profilePic}
-                  src={
-                    formData.profilePicture
-                      ? encodeURI(formData.profilePicture)
-                      : DEFAULT_IMAGE
-                  }
+                <img
+                  className={styles.profilePic}
+                  src={preview || formData.profilePicture || DEFAULT_IMAGE}
                   alt="profile"
                 />
 

@@ -5,6 +5,8 @@
   padding: 2rem 1.5rem 4rem;
   max-width: 860px;
   margin: 0 auto;
+  border-radius: 2rem;
+  margin-top:1.5rem;
 }
 
 .my-rides-header {

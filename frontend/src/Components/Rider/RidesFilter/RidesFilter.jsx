@@ -18,44 +18,61 @@ export default function RidesFilter({ view = "FindRides" }) {
   const [rides, setRides] = useState([]);
   const [loading, setLoading] = useState(false);
   const [fetchError, setFetchError] = useState("");
-  const [minRating, setMinRating] = useState(0);
-  const [maxCost, setMaxCost] = useState(50);
+  const [minRating, setMinRating] = useState("");
+  const [maxCost, setMaxCost] = useState("50");
   const [sortBy, setSortBy] = useState("time_asc");
   const [requestedIds, setRequestedIds] = useState(new Set());
   const [searchDep, setSearchDep] = useState("");
   const [searchDest, setSearchDest] = useState("");
   const [searchDate, setSearchDate] = useState("");
   const [requestError, setRequestError] = useState("");
+  const [searchTime, setSearchTime] = useState("");
+  const [refreshKey, setRefreshKey] = useState(0);
+
+
+  const fetchRides = async () => {
+    setLoading(true);
+    setFetchError("");
+
+    try {
+      const params = {};
+
+      if (maxCost !== "") params.price = Number(maxCost);
+      if (searchDep) params.departureLocation = searchDep;
+      if (searchDest) params.destination = searchDest;
+      if (searchDate) params.date = searchDate;
+      if (searchTime) params.time = searchTime;
+
+      const response = await api.get("/rides", { params });
+      setRides(response.data.data);
+    } catch (err) {
+      setFetchError(err.response?.data?.message || "Failed to load rides.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchRides = async () => {
-      setLoading(true);
-      setFetchError("");
-      try {
-        const params = { price: maxCost };
-        if (searchDep) params.departureLocation = searchDep;
-        if (searchDest) params.destination = searchDest;
-        if (searchDate) params.date = searchDate;
-        const response = await api.get("/rides", { params });
-        setRides(response.data.data);
-      } catch (error) {
-        setFetchError(error.response?.data?.message || "Failed to load rides.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     if (view === "FindRides") {
       fetchRides();
     }
-  }, [view, searchDep, searchDest, searchDate, maxCost]);
+  }, [view, searchDep, searchDest, searchDate, searchTime, maxCost]);
 
   const filteredRides = useMemo(() => {
-    let filtered = rides.filter(
-      (r) =>
-        r.status === "open" &&
-        (r.driverId?.avgRating || 0) >= minRating
+    const ratingFilter = minRating === "" ? 0 : Number(minRating);
+    let filtered = rides.filter((r) => {
+    const matchesTime =
+      !searchTime ||
+      new Date(r.departureTime)
+        .toTimeString()
+        .slice(0, 5) === searchTime;
+
+    return (
+      r.status === "open" &&
+      (r.driverId?.avgRating || 0) >= ratingFilter &&
+      matchesTime
     );
+  });
 
     return [...filtered].sort((a, b) => {
       if (sortBy === "time_asc")    return new Date(a.departureTime) - new Date(b.departureTime);
@@ -65,7 +82,7 @@ export default function RidesFilter({ view = "FindRides" }) {
       if (sortBy === "seats_desc")  return b.remainingSeats - a.remainingSeats;
       return 0;
     });
-  }, [rides, minRating, sortBy]);
+  }, [rides, minRating, searchTime, sortBy]);
 
   const handleRequest = async (id) => {
     setRequestError("");
@@ -125,6 +142,11 @@ export default function RidesFilter({ view = "FindRides" }) {
                 <input className={styles['text-input']} type="date"
                   value={searchDate} onChange={(e) => setSearchDate(e.target.value)} />
               </div>
+              <div className={styles['field-group']}>
+                <label className={styles['field-label']}>Time</label>
+                <input className={styles['text-input']} type="time"
+                  value={searchTime} onChange={(e) => setSearchTime(e.target.value)}/>
+              </div>
             </div>
 
             {fetchError && (
@@ -137,17 +159,38 @@ export default function RidesFilter({ view = "FindRides" }) {
             <div className={styles['sliders-row']}>
               <div className={styles['field-group']}>
                 <label className={styles['field-label']}>
-                  Min Rating <strong>{minRating.toFixed(1)} ★</strong>
+                  Min Rating <strong>{minRating || 0} ★</strong>
                 </label>
-                <input type="range" min="0" max="5" step="0.1" value={minRating}
-                  onChange={(e) => setMinRating(Number(e.target.value))} />
+                <input
+                  className={styles['text-input']}
+                  type="number"
+                  min="0"
+                  max="5"
+                  step="0.1"
+                  value={minRating}
+                  onChange={(e) => {
+                    const value = e.target.value;
+
+                    if (value === "") {
+                      setMinRating("");
+                      return;
+                    }
+
+                    setMinRating(String(Math.min(5, Number(value))));
+                  }}
+                />
               </div>
               <div className={styles['field-group']}>
                 <label className={styles['field-label']}>
-                  Max Price <strong>${maxCost}</strong>
+                  Max Price <strong>${maxCost || "∞"}</strong>
                 </label>
-                <input type="range" min="0" max="100" step="1" value={maxCost}
-                  onChange={(e) => setMaxCost(Number(e.target.value))} />
+                <input
+                  className={styles['text-input']}
+                  type="number"
+                  min="0"
+                  value={maxCost}
+                  onChange={(e) => setMaxCost(e.target.value)}
+                />
               </div>
               <div className={styles['field-group']}>
                 <label className={styles['field-label']}>Sort By</label>
