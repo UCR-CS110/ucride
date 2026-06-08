@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import { useState, useCallback } from "react";
 import {Link, useNavigate} from "react-router-dom";
 import { useAuth } from "../../context/useAuth";
+import GoogleSignInButton from "../GoogleSignInButton/GoogleSignInButton";
 import styles from "./SigninForm.module.css"
 import clsx from "clsx";
 
@@ -8,7 +9,7 @@ function SigninForm(){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-    const { login } = useAuth();
+    const { login, googleLogin } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -21,6 +22,16 @@ function SigninForm(){
             setError(err.response?.data?.message || "Failed to sign in. Check credentials.");
         }
     };
+
+    const handleGoogleCredential = useCallback(async (credential) => {
+        setError("");
+        try {
+            await googleLogin(credential);
+            navigate("/");
+        } catch (err) {
+            setError(err.response?.data?.message || "Failed to sign in with Google.");
+        }
+    }, [googleLogin, navigate]);
 
     return (
         <div className={styles['signin-page']}>
@@ -43,6 +54,12 @@ function SigninForm(){
                     </div>
                     <button type="submit" className={clsx(styles['button-dark'], styles['submit-btn'])}>Sign In</button>
                 </form>
+
+                <div className={styles.divider}><span>or</span></div>
+
+                <div className={styles['google-wrap']}>
+                    <GoogleSignInButton onCredential={handleGoogleCredential} onError={() => setError("Google sign-in is unavailable right now.")} />
+                </div>
             </div>
         </div>
     )
