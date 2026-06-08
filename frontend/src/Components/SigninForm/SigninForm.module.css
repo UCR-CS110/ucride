@@ -125,3 +125,33 @@ form {
   background-color: var(--blue-bright);
 }
 
+.divider {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	text-align: center;
+	margin: 1.25rem 0;
+	color: var(--text-light);
+	font-size: 0.8rem;
+}
+
+.divider::before,
+.divider::after {
+	content: "";
+	flex: 1;
+	height: 1px;
+	background: var(--blue-pale);
+}
+
+.divider span {
+	padding: 0 0.75rem;
+}
+
+.google-wrap {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	justify-content: center;
+}
+
