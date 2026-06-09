@@ -81,6 +81,7 @@ export default function RidesFilter({ view = "FindRides" }) {
 
     return (
       r.status === "open" &&
+      r.driverId?._id?.toString() !== user?._id?.toString() &&
       (r.driverId?.avgRating || 0) >= ratingFilter &&
       matchesTime
     );

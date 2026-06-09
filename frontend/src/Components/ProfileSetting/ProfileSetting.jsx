@@ -50,10 +50,12 @@ function ProfileSetting() {
 
       const newPic = res.data.data.profilePicture;
 
-      setUser((prev) => ({
+      setFormData((prev) => ({
         ...prev,
         profilePicture: newPic,
       }));
+
+      setPreview(newPic);
 
       window.dispatchEvent(new Event("profileUpdated"));
 

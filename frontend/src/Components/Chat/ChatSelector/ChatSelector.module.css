@@ -162,6 +162,21 @@ search input::placeholder {
 	line-height: 1.4;
 }
 
+.empty-inbox-icon {
+	margin-bottom: 0.75rem;
+}
+
+.empty-title {
+	margin: 0;
+	font-weight: 500;
+}
+
+.empty-subtitle {
+	margin: 0.5rem 0 0;
+	font-size: 0.8125rem;
+	color: var(--text-light);
+}
+
 @media (max-width: 768px) {
 	.container-left h1 {
 		font-size: 1.125rem;

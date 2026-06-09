@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import styles from "./GoogleSignInButton.module.css";
 
 const GSI_SRC = "https://accounts.google.com/gsi/client";
 const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
@@ -85,7 +86,7 @@ function GoogleSignInButton({ onCredential, onError, text = "signin_with" }) {
         return null;
     }
 
-    return <div ref={buttonRef} style={{ display: "flex", justifyContent: "center" }} />;
+    return <div ref={buttonRef} className={styles['button-wrapper']} />;
 }
 
 export default GoogleSignInButton;

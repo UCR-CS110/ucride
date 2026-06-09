@@ -152,12 +152,7 @@ function MyRides() {
                 <button
                   key={star}
                   onClick={() => setRating(star)}
-                  style={{
-                    fontSize: "20px",
-                    color: star <= rating ? "gold" : "#ccc",
-                    background: "none",
-                    border: "none"
-                  }}
+                  className={star <= rating ? styles.starActive : styles.star}
                 >
                   ★
                 </button>

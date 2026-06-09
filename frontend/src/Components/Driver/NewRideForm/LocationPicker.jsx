@@ -88,7 +88,7 @@ export default function LocationPicker({ label, value, onChange, error }) {
           <Map
             mapboxAccessToken={TOKEN}
             initialViewState={{ longitude: value.lng, latitude: value.lat, zoom: 13 }}
-            style={{ width: '100%', height: '100%' }}
+            className={styles['map-fill']}
             mapStyle="mapbox://styles/mapbox/streets-v12"
             interactive={false}
           >

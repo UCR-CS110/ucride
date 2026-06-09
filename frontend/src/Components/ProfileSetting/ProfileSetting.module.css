@@ -96,7 +96,6 @@ input {
 input:focus {
   border-color: var(--blue-bright);
   background: var(--white);
-  box-shadow: 0 0 0 3px rgba(18, 149, 216, 0.15);
 }
 
 input::placeholder {

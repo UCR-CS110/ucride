@@ -1,7 +1,9 @@
 .new-ride-page {
-  background: var(--blue-lightest);
-  min-height: 100vh;
   display: flex;
+  background: #f4f6f8;
+  border-radius: 2rem;
+  min-height: 100vh;
+  margin-top:1.5rem;
   align-items: flex-start;
   justify-content: center;
   padding: 2.5rem 1rem 4rem;
@@ -9,7 +11,7 @@
 
 .new-ride-card {
   background: var(--white);
-  border-radius: var(--radius-btn);
+  border-radius: 1.5rem;
   padding: 2rem 2rem 2.5rem;
   width: 100%;
   max-width: 520px;
@@ -84,6 +86,8 @@
 }
 
 .ride-form_field input {
+  width: 100%;
+  box-sizing: border-box;
   border: 1.5px solid var(--blue-pale);
   border-radius: var(--radius-btn);
   padding: 0.6rem 0.85rem;

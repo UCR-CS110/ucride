@@ -40,7 +40,7 @@ function RegisterForm() {
                 </div>
 
                 <form onSubmit={handleSubmit}>
-                {error && <div className={styles['error-message']} style={{ color: '#dc2626', fontSize: '0.85rem', marginBottom: '1rem', textAlign: 'center' }}>{error}</div>}
+                {error && <div className={styles['error-message']}>{error}</div>}
                 <div className={styles['form-row']}>
                     <div className={styles.field}>
                         <label htmlFor="firstName">First Name</label>
