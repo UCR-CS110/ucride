@@ -50,7 +50,7 @@ function ProfileSetting() {
         formDataUpload
       );
 
-      const newPic = res.data.data.profilePicture;
+      const newPic = `${res.data.data.profilePicture}?t=${Date.now()}`;
 
       setFormData((prev) => ({
         ...prev,
