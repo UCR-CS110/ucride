@@ -5,59 +5,149 @@ import { Car, ArrowRight } from 'lucide-react';
 import api from "../../../utils/api";
 
 function MyRides() {
-  const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [rides, setRides] = useState([]);
+  const [reviewRide, setReviewRide] = useState(null);
+  const [rating, setRating] = useState(5);
+  const [content, setContent] = useState("");
 
   useEffect(() => {
-    const fetchRequests = async () => {
+    const fetchRides = async () => {
       try {
-        const response = await api.get('/requests');
-        setRequests(response.data.data);
+        const response = await api.get('/rides/my-rides');
+        setRides(response.data.data);
       } catch (error) {
-        console.error("Failed to fetch requested rides:", error);
+        console.error("Failed to fetch rides:", error);
       } finally {
         setLoading(false);
       }
     };
-    fetchRequests();
+
+    fetchRides();
   }, []);
+
+  const activeRides = rides.filter(
+    ride => ride.status !== "completed"
+  );
+
+  const completedRides = rides.filter(
+    ride => ride.status === "completed"
+  );
 
   return (
     <div className={styles['my-rides']}>
-      <h3 className={styles['section-title']}>My Requested Rides</h3>
       {loading ? (
-        <div className={styles['empty-state']}>Loading your requests...</div>
-      ) : requests.length === 0 ? (
+        <div className={styles['empty-state']}>Loading your rides...</div>
+      ) : rides.length === 0 ? (
         <div className={styles['empty-state']}>
-          <span className={styles['empty-icon']}><Car size={48} /></span>
-          <p>No rides requested yet. Find a ride and request it!</p>
+          <Car size={48} />
+          <p>No rides found.</p>
         </div>
       ) : (
-        <div className={styles['rides-list']}>
-          {requests.map((req) => {
-            const ride = req.rideId;
-            if (!ride) return null;
-            const d = new Date(ride.departureTime);
-            return (
-              <div key={req._id} className={styles['my-ride-card']}>
-                <div className={styles['my-ride-info']}>
-                  <div className={styles['my-ride-route']}>
-                    {ride.departureLocation} <ArrowRight className={styles['arrow-icon']} size={18} /> {ride.destination}
-                  </div>
-                  <div className={styles['my-ride-time']}>
-                    {d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })} at{" "}
-                    {d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-                  </div>
+        <>
+          {activeRides.length > 0 && (
+          <>
+            <h3>Active Rides</h3>
+            <div className={styles['rides-list']}>
+              {activeRides.map((ride) => (
+                <div key={ride._id} className={styles['my-ride-card']}>
+                  <div>{ride.departureLocation} → {ride.destination}</div>
                 </div>
-                <div className={styles['my-ride-right']}>
-                  <span className={styles['my-ride-price']}>${ride.seatPrice?.toFixed(2)}</span>
-                  <span className={clsx(styles['requested-badge'], styles[`status-${req.status}`])}>
-                    {req.status.charAt(0).toUpperCase() + req.status.slice(1)}
-                  </span>
+              ))}
+            </div>
+          </>
+        )}
+
+        {completedRides.length > 0 && (
+          <>
+            <h3>Completed Rides</h3>
+            <div className={styles['rides-list']}>
+              {completedRides.map((ride) => (
+                <div key={ride._id} className={styles['my-ride-card']}>
+                  <div>{ride.departureLocation} → {ride.destination}</div>
+
+                  <button
+                    disabled={ride.reviewed}
+                    onClick={() => setReviewRide(ride)}
+                  >
+                    {ride.reviewed ? "Reviewed" : "Leave Review"}
+                  </button>
                 </div>
-              </div>
-            );
-          })}
+              ))}
+            </div>
+          </>
+        )}
+        </>
+      )}
+
+      {reviewRide && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <h3>Review Driver</h3>
+
+            <p>
+              {reviewRide.driverId?.fName} {reviewRide.driverId?.lName}
+            </p>
+
+            <div>
+              {[1,2,3,4,5].map((star) => (
+                <button
+                  key={star}
+                  onClick={() => setRating(star)}
+                  style={{
+                    fontSize: "20px",
+                    color: star <= rating ? "gold" : "#ccc",
+                    background: "none",
+                    border: "none"
+                  }}
+                >
+                  ★
+                </button>
+              ))}
+            </div>
+
+            <textarea
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              placeholder="Write your review..."
+            />
+
+            <div>
+              <button
+                onClick={async () => {
+                  try {
+                    await api.post("/reviews", {
+                      rideId: reviewRide._id,
+                      revieweeId: reviewRide.driverId?._id,  
+                      rating: Number(rating),
+                      content: content?.trim()
+                    });
+
+                    setReviewRide(null);
+                    setRating(5);
+                    setContent("");
+                  } catch (err) {
+                    const msg = err.response?.data?.message;
+
+                    if (msg?.includes("already reviewed")) {
+                      alert("You already reviewed this driver for this ride.");
+                      setReviewRide(null);
+                      return;
+                    }
+
+                    console.error(err);
+                    alert("Failed to submit review");
+                  }
+                }}
+              >
+                Submit
+              </button>
+
+              <button onClick={() => setReviewRide(null)}>
+                Cancel
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

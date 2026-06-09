@@ -30,7 +30,19 @@ const rideSchema = new mongoose.Schema({
     type: String, 
     enum: ['open', 'full', 'inprogress', 'completed'], 
     default: 'open' 
-  }
+  },
+  requests: [
+    {
+      userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+      status: { type: String, default: "pending" } // pending, accepted, rejected
+    }
+  ],
+  reviewTargets: [
+    {
+      userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+      reviewed: { type: Boolean, default: false }
+    }
+  ]
 }, { timestamps: true });
 
 module.exports = mongoose.model('Ride', rideSchema);

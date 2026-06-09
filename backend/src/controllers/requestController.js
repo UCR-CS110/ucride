@@ -27,19 +27,36 @@ exports.createRequest = async (req, res) => {
 
 exports.getRequests = async (req, res) => {
   try {
-    let query = {};
-    if (req.user.role === 'user') {
-      query.riderId = req.user.id;
-    } else if (req.user.role === 'verified_driver') {
-      const rides = await Ride.find({ driverId: req.user.id }).select('_id');
-      const rideIds = rides.map(r => r._id);
-      query.rideId = { $in: rideIds };
-    }
+    const rides = await Ride.find({
+      "requests.userId": req.user.id
+    });
 
-    const requests = await Request.find(query).populate('rideId').populate('riderId', 'fName lName profilePictureUrl avgRating');
-    res.status(200).json({ success: true, count: requests.length, data: requests });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    const requests = rides.flatMap(ride =>
+      ride.requests
+        .filter(r => r.userId.toString() === req.user.id)
+        .map(r => ({
+          _id: r._id,
+          status: r.status,
+          rideId: {
+            _id: ride._id,
+            departureLocation: ride.departureLocation,
+            destination: ride.destination,
+            departureTime: ride.departureTime,
+            seatPrice: ride.seatPrice,
+          }
+        }))
+    );
+
+    return res.json({
+      success: true,
+      data: requests
+    });
+
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: err.message
+    });
   }
 };
 

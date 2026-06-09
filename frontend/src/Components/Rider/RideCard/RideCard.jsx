@@ -2,6 +2,7 @@ import React from 'react';
 import { Calendar, Clock, ArrowRight } from 'lucide-react';
 import styles from './RideCard.module.css';
 import clsx from 'clsx';
+import { Link } from "react-router-dom";
 
 function SeatDots({ remaining, total = 4 }) {
   return (
@@ -18,27 +19,45 @@ function RideCard({ ride, onRequest, requested }) {
   const d = new Date(ride.departureTime);
   const date = d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
   const time = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-
+  const DEFAULT_IMAGE = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
   return (
     <div className={styles['rider-ride-card']}>
       <div className={styles['driver-col']}>
-        <img
-          src={ride.driverId?.profilePictureUrl}
-          alt={ride.driverId?.fName}
-          className={styles['profile-pic']}
-        />
-        <div className={styles['driver-name']}>
-          <span className={styles['driver-fname']}>{ride.driverId?.fName}</span>
-          <span className={styles['driver-lname']}>{ride.driverId?.lName}</span>
-        </div>
+        <Link
+          to={`/profile/${ride.driverId?._id}`}
+          className={styles['driver-link']}
+        >
+          <img
+            src={
+              ride.driverId?.profilePicture?.trim()
+                ? encodeURI(ride.driverId.profilePicture)
+                : DEFAULT_IMAGE
+            }
+            alt={ride.driverId?.fName || "Driver"}
+            className={styles["profile-pic"]}
+          />
+
+          <div className={styles['driver-name']}>
+            <span className={styles['driver-fname']}>
+              {ride.driverId?.fName}
+            </span>
+            <span className={styles['driver-lname']}>
+              {ride.driverId?.lName}
+            </span>
+          </div>
+        </Link>
+
         <div className={styles['driver-rating']}>
-          <span className={styles['rating-value']}>{ride.driverId?.avgRating != null ? ride.driverId.avgRating.toFixed(1) : "N/A"} ★</span>
+          <span className={styles['rating-value']}>
+            {ride.driverId?.avgRating != null
+              ? ride.driverId.avgRating.toFixed(1)
+              : "N/A"} ★
+          </span>
         </div>
       </div>
 
       <div className={styles['card-divider']} />
 
-      
       <div className={styles['rider-ride-details']}>
         <div className={styles['route-row']}>
           <span className={clsx(styles['location-badge'], styles['location-badge--from'])}>{ride.departureLocation}</span>

@@ -14,6 +14,10 @@ const userSchema = new mongoose.Schema({
     required: true, 
     match: /@ucr\.edu$/ 
   },
+  profilePicture: {
+    type: String,
+    default: "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+  },
   password: { 
     type: String, 
     required: function () {
@@ -30,22 +34,19 @@ const userSchema = new mongoose.Schema({
     enum: ['user', 'verified_driver', 'admin'],
     required: true
   },
-  profilePictureUrl: {
-    type: String
-  },
   avgRating: {
     type: Number,
     min: 1,
     max: 5
   },
   vehicle: {
-    make: { 
+    vehicleMake: { 
       type: String 
     },
-    model: { 
+    vehicleModel: { 
       type: String 
     },
-    color: { 
+    vehicleColor: { 
       type: String 
     },
     licensePlate: { 
