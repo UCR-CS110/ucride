@@ -270,6 +270,11 @@
   opacity: 0.8;
 }
 
+.ride-card_btn--chat {
+  background: var(--blue-deep);
+  color: var(--white);
+}
+
 .ride-card_btn--edit {
   background: var(--blue-lightest);
   color: var(--blue-deep);

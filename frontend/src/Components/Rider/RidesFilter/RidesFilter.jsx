@@ -3,6 +3,7 @@ import { Car, Search } from "lucide-react";
 import MyRides from "../MyRides/MyRides";
 import RideCard from "../RideCard/RideCard";
 import api from "../../../utils/api";
+import { useAuth } from "../../../context/useAuth";
 import styles from "./RidesFilter.module.css";
 import clsx from "clsx";
 
@@ -15,6 +16,7 @@ const SORT_OPTIONS = [
 ];
 
 export default function RidesFilter({ view = "FindRides" }) {
+  const { user } = useAuth();
   const [rides, setRides] = useState([]);
   const [loading, setLoading] = useState(false);
   const [fetchError, setFetchError] = useState("");
@@ -44,7 +46,17 @@ export default function RidesFilter({ view = "FindRides" }) {
       if (searchTime) params.time = searchTime;
 
       const response = await api.get("/rides", { params });
-      setRides(response.data.data);
+      const fetchedRides = response.data.data;
+      setRides(fetchedRides);
+
+      if (user?._id) {
+        const alreadyRequested = new Set(
+          fetchedRides
+            .filter(ride => ride.requests?.some(r => r.userId === user._id))
+            .map(ride => ride._id)
+        );
+        setRequestedIds(alreadyRequested);
+      }
     } catch (err) {
       setFetchError(err.response?.data?.message || "Failed to load rides.");
     } finally {

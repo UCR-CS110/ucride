@@ -6,13 +6,15 @@ const rideSchema = new mongoose.Schema({
     ref: 'User', 
     required: true 
   },
-  departureLocation: { 
-    type: String, 
-    required: true 
+  departureLocation: {
+    name: { type: String, required: true },
+    lat:  { type: Number, required: true },
+    lng:  { type: Number, required: true },
   },
-  destination: { 
-    type: String, 
-    required: true 
+  destination: {
+    name: { type: String, required: true },
+    lat:  { type: Number, required: true },
+    lng:  { type: Number, required: true },
   },
   departureTime: { 
     type: Date, 

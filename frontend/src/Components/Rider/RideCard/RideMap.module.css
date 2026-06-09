@@ -1,0 +1,39 @@
+.ride-map {
+  width: 100%;
+  height: 260px;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  position: relative;
+  border: 1.5px solid var(--blue-pale);
+}
+
+.map-legend {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 0.5rem;
+  padding: 6px 10px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+  max-width: 200px;
+}
+
+.legend-from {
+  color: #0876ac;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.legend-to {
+  color: #b07700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

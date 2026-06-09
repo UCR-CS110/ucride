@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useOutletContext } from "react-router-dom";
-import { ArrowRight, Clock, Users, Banknote, ClipboardList, Plus } from "lucide-react";
+import { ArrowRight, Clock, Users, Banknote, ClipboardList, Plus, MessageSquare } from "lucide-react";
 import api from "../../../utils/api";
 import { useAuth } from "../../../context/useAuth";
 import styles from "./DriverMyRides.module.css";
@@ -30,11 +30,11 @@ function RideCard({ ride, onEdit, onDelete, onStatusChange }) {
     <div className={clsx(styles['ride-card'], styles[`ride-card--${ride.status}`])}>
       <div className={styles['ride-card_route']}>
         <div className={styles['ride-card_location']}>
-          <span className={styles['ride-card_place']}>{ride.departureLocation}</span>
+          <span className={styles['ride-card_place']}>{ride.departureLocation?.name?.split(',')[0]}</span>
         </div>
         <div className={styles['ride-card_arrow']}><ArrowRight size={16} /></div>
         <div className={styles['ride-card_location']}>
-          <span className={styles['ride-card_place']}>{ride.destination}</span>
+          <span className={styles['ride-card_place']}>{ride.destination?.name?.split(',')[0]}</span>
         </div>
       </div>
 
@@ -65,6 +65,11 @@ function RideCard({ ride, onEdit, onDelete, onStatusChange }) {
           ))}
         </select>
         <div className={styles['ride-card_actions']}>
+          <Link to="/messages" state={{ rideId: ride._id }}>
+            <button className={clsx(styles['ride-card_btn'], styles['ride-card_btn--chat'])}>
+              <MessageSquare size={13} style={{ verticalAlign: 'middle', marginRight: 3 }} />Chat
+            </button>
+          </Link>
           <button className={clsx(styles['ride-card_btn'], styles['ride-card_btn--edit'])} onClick={() => onEdit(ride._id, ride.seatPrice)}>Edit Price</button>
           <button className={clsx(styles['ride-card_btn'], styles['ride-card_btn--delete'])} onClick={() => onDelete(ride._id)}>Delete</button>
         </div>

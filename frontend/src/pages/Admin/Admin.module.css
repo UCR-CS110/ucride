@@ -101,6 +101,9 @@
   display: flex;
   justify-content: space-between;
 }
+.list-card strong {
+  padding-left: 1rem;
+}
 
 .list-card li:last-child {
   border-bottom: none;

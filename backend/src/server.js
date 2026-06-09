@@ -52,6 +52,18 @@ io.on('connection', (socket) => {
     console.log(`User ${userId} joined room`);
   });
 
+  socket.on('joinRideRoom', (rideId) => {
+    socket.join(rideId);
+    console.log(`Socket joined ride room: ${rideId}`);
+  });
+
+  socket.on('joinAllRideRooms', (rideIds) => {
+    if (Array.isArray(rideIds)) {
+      rideIds.forEach(rideId => socket.join(rideId));
+      console.log(`Socket joined ${rideIds.length} ride rooms`);
+    }
+  });
+
   socket.on('disconnect', () => {
     console.log(`Socket disconnected: ${socket.id}`);
   });

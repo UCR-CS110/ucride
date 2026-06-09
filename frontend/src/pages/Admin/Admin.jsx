@@ -422,7 +422,7 @@ function Admin() {
                     : "Unknown"}
                 </td>
                 <td>
-                  {ride.departureLocation} → {ride.destination}
+                  {ride.departureLocation?.name?.split(',')[0]} → {ride.destination?.name?.split(',')[0]}
                 </td>
                 <td>{new Date(ride.departureTime).toLocaleString()}</td>
                 <td>

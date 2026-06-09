@@ -86,6 +86,40 @@
   background: #fee2e2;
   color: #dc2626;
 }
+
+.status-inprogress {
+  background: #fff7ed;
+  color: #c2410c;
+}
+.my-ride-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.chat-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--blue-deep);
+  color: var(--white);
+  border: none;
+  border-radius: 999px;
+  padding: 5px 13px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.12s;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.chat-btn:hover {
+  background: var(--blue-bright);
+  transform: scale(1.03);
+}
+
 .arrow-icon {
     color: var(--blue-bright);
     stroke-width: 2.5;

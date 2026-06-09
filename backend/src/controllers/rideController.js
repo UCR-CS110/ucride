@@ -18,8 +18,9 @@ exports.getRides = async (req, res) => {
     let query = {};
 
     if (departureLocation)
-      query.departureLocation = { $regex: departureLocation, $options: "i" };
-    if (destination) query.destination = { $regex: destination, $options: "i" };
+      query["departureLocation.name"] = { $regex: departureLocation, $options: "i" };
+    if (destination)
+      query["destination.name"] = { $regex: destination, $options: "i" };
     if (price) query.seatPrice = { $lte: Number(price) };
     if (driverId) query.driverId = driverId;
     if (date) {
@@ -260,7 +261,7 @@ exports.getMyAcceptedRides = async (req, res) => {
       requests: {
         $elemMatch: {
           userId: req.user.id,
-          status: "accepted"
+          status: { $in: ["pending", "accepted", "inprogress"] }
         }
       }
     }).populate("driverId", "fName lName avgRating profilePicture");
