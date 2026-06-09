@@ -48,12 +48,14 @@ function ProfileSetting() {
         formDataUpload
       );
 
-      const newPic = res.data.data.profilePicture;
+      const newPic = `${res.data.data.profilePicture}?t=${Date.now()}`;
 
-      setUser((prev) => ({
-        ...prev,
-        profilePicture: newPic,
-      }));
+            setFormData((prev) => ({
+              ...prev,
+              profilePicture: newPic,
+            }));
+
+            setPreview(newPic);
 
       window.dispatchEvent(new Event("profileUpdated"));
 

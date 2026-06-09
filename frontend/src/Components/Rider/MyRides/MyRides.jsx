@@ -122,10 +122,15 @@ function MyRides() {
                         )}
                         {wasAccepted && (
                           <button
+                            className={
+                              ride.reviewed
+                                ? styles.reviewedBtn
+                                : styles.reviewBtn
+                            }
                             disabled={ride.reviewed}
                             onClick={() => setReviewRide(ride)}
                           >
-                            {ride.reviewed ? "Reviewed" : "Leave Review"}
+                            {ride.reviewed ? "✓ Reviewed" : "⭐ Leave Review"}
                           </button>
                         )}
                       </div>
