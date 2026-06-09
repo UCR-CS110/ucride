@@ -115,7 +115,9 @@ exports.getAnalytics = async (req, res) => {
     const rides = await Ride.find();
     const routeCounts = {};
     rides.forEach(r => {
-      const key = `${r.departureLocation} to ${r.destination}`;
+      const from = r.departureLocation.name.split(',')[0].trim();
+      const to   = r.destination.name.split(',')[0].trim();
+      const key  = `${from} to ${to}`;
       routeCounts[key] = (routeCounts[key] || 0) + 1;
     });
 

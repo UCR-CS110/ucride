@@ -39,8 +39,6 @@ function ChatContent({ activeChat, socket }) {
         if (!socket) return;
 
         const handleNewMessage = (message) => {
-            // Only add messages RECEIVED by the current user (not sent by them)
-            // Messages sent by the user are already added via API response
             if (activeChat &&
                 message.rideId === activeChat.rideId &&
                 message.senderId === activeChat.otherUserId &&
@@ -61,7 +59,6 @@ function ChatContent({ activeChat, socket }) {
     }, [socket, activeChat, user]);
 
     useEffect(() => {
-        // Scroll to bottom when messages update
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
 
@@ -72,7 +69,6 @@ function ChatContent({ activeChat, socket }) {
         const messageContent = newMessage.trim();
         const tempId = `temp-${Date.now()}`;
 
-        // Optimistic UI update - show message immediately
         const optimisticMessage = {
             _id: tempId,
             senderId: user._id,
@@ -94,15 +90,13 @@ function ChatContent({ activeChat, socket }) {
                 content: messageContent
             });
 
-            // Replace optimistic message with real one
             setMessages(prev => prev.map(msg =>
                 msg._id === tempId ? response.data.data : msg
             ));
         } catch (error) {
             console.error("Failed to send message:", error);
-            // Remove optimistic message on error
             setMessages(prev => prev.filter(msg => msg._id !== tempId));
-            setNewMessage(messageContent); // Restore message
+            setNewMessage(messageContent);
             alert('Failed to send message. Please try again.');
         } finally {
             setSending(false);

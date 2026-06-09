@@ -30,11 +30,11 @@ function RideCard({ ride, onEdit, onDelete, onStatusChange }) {
     <div className={clsx(styles['ride-card'], styles[`ride-card--${ride.status}`])}>
       <div className={styles['ride-card_route']}>
         <div className={styles['ride-card_location']}>
-          <span className={styles['ride-card_place']}>{ride.departureLocation}</span>
+          <span className={styles['ride-card_place']}>{ride.departureLocation?.name?.split(',')[0]}</span>
         </div>
         <div className={styles['ride-card_arrow']}><ArrowRight size={16} /></div>
         <div className={styles['ride-card_location']}>
-          <span className={styles['ride-card_place']}>{ride.destination}</span>
+          <span className={styles['ride-card_place']}>{ride.destination?.name?.split(',')[0]}</span>
         </div>
       </div>
 

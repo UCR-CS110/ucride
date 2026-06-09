@@ -55,10 +55,10 @@ function RequestCard({ request, onAccept, onDecline }) {
       <div className={styles['request-card_ride']}>
         <div className={styles['request-card_route']}>
           <span className={clsx(styles['request-card_dot'], styles['request-card_dot--from'])} />
-          <span className={styles['request-card_place']}>{rideId.departureLocation}</span>
+          <span className={styles['request-card_place']}>{rideId.departureLocation?.name?.split(',')[0]}</span>
           <span className={styles['request-card_arrow']} style={{ display: 'inline-flex', alignItems: 'center' }}><ArrowRight size={16} /></span>
           <span className={clsx(styles['request-card_dot'], styles['request-card_dot--to'])} />
-          <span className={styles['request-card_place']}>{rideId.destination}</span>
+          <span className={styles['request-card_place']}>{rideId.destination?.name?.split(',')[0]}</span>
         </div>
         <div className={styles['request-card_meta']}>
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><Clock size={16} /> {formatTime(rideId.departureTime)}</span>

@@ -42,7 +42,7 @@ function MyRides() {
               <div key={req._id} className={styles['my-ride-card']}>
                 <div className={styles['my-ride-info']}>
                   <div className={styles['my-ride-route']}>
-                    {ride.departureLocation} <ArrowRight className={styles['arrow-icon']} size={18} /> {ride.destination}
+                    {ride.departureLocation?.name?.split(',')[0]} <ArrowRight className={styles['arrow-icon']} size={18} /> {ride.destination?.name?.split(',')[0]}
                   </div>
                   <div className={styles['my-ride-time']}>
                     {d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })} at{" "}

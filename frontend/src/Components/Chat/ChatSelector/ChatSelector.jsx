@@ -61,7 +61,6 @@ function ChatSelector({ activeChat, setActiveChat, socket }) {
                 );
                 
                 if (chatIndex > -1) {
-                    // Update existing chat
                     const updatedChat = {
                         ...prevChats[chatIndex],
                         lastMessage: message.content,
@@ -71,7 +70,6 @@ function ChatSelector({ activeChat, setActiveChat, socket }) {
                     newChats.splice(chatIndex, 1);
                     return [updatedChat, ...newChats];
                 } else {
-                    // New conversation - refetch to get user details
                     fetchChats();
                     return prevChats;
                 }

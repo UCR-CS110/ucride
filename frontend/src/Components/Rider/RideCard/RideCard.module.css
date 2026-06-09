@@ -2,6 +2,13 @@
   background: var(--white);
   border: 1.5px solid var(--blue-pale);
   border-radius: 1rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.card-body {
   padding: 20px 22px;
   display: flex;
   gap: 18px;
@@ -9,23 +16,56 @@
   flex-wrap: wrap;
 }
 
+.map-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
+  padding: 8px;
+  background: var(--blue-lightest);
+  border: none;
+  border-top: 1.5px solid var(--blue-pale);
+  color: var(--blue-deep);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.map-toggle:hover {
+  background: var(--blue-pale);
+}
+
+.toggle-icon {
+  transition: transform 0.2s ease;
+}
+
+.toggle-icon--open {
+  transform: rotate(180deg);
+}
+
+.map-section {
+  padding: 0 16px 16px;
+}
+
 @media (max-width: 768px){
-  .rider-ride-card {
+  .card-body {
     flex-direction: column;
     align-items: center;
     gap: 16px;
   }
-  
+
   .card-divider {
     width: 100%;
     height: 1.5px;
   }
-  
+
   .rider-ride-details {
     align-items: center;
     text-align: center;
   }
-  
+
   .route-row {
     justify-content: center;
   }

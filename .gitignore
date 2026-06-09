@@ -1,6 +1,7 @@
 /misc
 backend/.env
 backend/test
+frontend/.env
 
 # Logs
 logs
