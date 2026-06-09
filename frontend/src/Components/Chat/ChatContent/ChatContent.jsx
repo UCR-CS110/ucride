@@ -110,7 +110,7 @@ function ChatContent({ activeChat, socket }) {
                 <div className={styles.avatar}>{activeChat.initials}</div>
                 <div>
                     <span className={styles['profile-name']}>{activeChat.name}</span>
-                    <span className={styles['chat-subtitle']}>Group Chat</span>
+                    <span className={styles['chat-subtitle']}>Chat</span>
                 </div>
             </div>
             <div className={styles['messages-container']}>

@@ -1,7 +1,15 @@
 .my-rides {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
+}
+
+.my-rides h3 {
+  margin: 0;
+}
+
+.rides-list + h3 {
+  margin-top: 20px;
 }
 
 .rides-list {
@@ -232,6 +240,40 @@
 
 .modal div:last-child button:last-child:hover {
   background: #d1d5db;
+}
+
+.review-btn {
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  color: var(--blue-deep);
+  border: 1.5px solid var(--blue-deep);
+  border-radius: 999px;
+  padding: 5px 13px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, transform 0.12s;
+  white-space: nowrap;
+}
+
+.review-btn:hover {
+  background: var(--blue-deep);
+  color: var(--white);
+  transform: scale(1.03);
+}
+
+.review-btn--done {
+  background: #f3f4f6;
+  color: #9ca3af;
+  border-color: #e5e7eb;
+  cursor: not-allowed;
+}
+
+.review-btn--done:hover {
+  background: #f3f4f6;
+  color: #9ca3af;
+  transform: none;
 }
 
 .star {
