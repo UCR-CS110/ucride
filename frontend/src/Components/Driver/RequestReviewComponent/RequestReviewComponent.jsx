@@ -5,6 +5,7 @@ import api from "../../../utils/api";
 import styles from "./RequestReviewComponent.module.css";
 import clsx from "clsx";
 
+
 function formatTime(isoString) {
   return new Date(isoString).toLocaleString("en-US", {
     weekday: "short",
@@ -31,6 +32,8 @@ function StarRating({ value }) {
 
 function RequestCard({ request, onAccept, onDecline }) {
   const { riderId, rideId } = request;
+  const DEFAULT_IMAGE = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+  const profileImg = riderId?.profilePicture?.trim() ? encodeURI(riderId.profilePicture): DEFAULT_IMAGE;
 
   if (!riderId || !rideId) return null;
 
@@ -38,15 +41,21 @@ function RequestCard({ request, onAccept, onDecline }) {
     <div className={styles['request-card']}>
       
       <div className={styles['request-card_rider']}>
-        <img
-          src={riderId.profilePictureUrl || "https://i.pravatar.cc/150"}
-          alt={`${riderId.fName} ${riderId.lName}`}
-          className={styles['request-card_avatar']}
-        />
+        <Link to={`/profile/${riderId._id}`}>
+          <img
+            src={profileImg}
+            alt={`${riderId.fName} ${riderId.lName}`}
+            className={styles['request-card_avatar']}
+          />
+        </Link>
+        
         <div className={styles['request-card_rider-info']}>
           <span className={styles['request-card_rider-name']}>
-            {riderId.fName} {riderId.lName}
+            <Link to={`/profile/${riderId._id}`}>
+              {riderId.fName} {riderId.lName}
+            </Link>
           </span>
+
           <StarRating value={riderId.avgRating || 5.0} />
         </div>
         <span className={styles['request-card_badge']}>Pending</span>
@@ -91,7 +100,6 @@ function RequestCard({ request, onAccept, onDecline }) {
 }
 
 function RequestReviewComponent() {
-  const { setReviewCount } = useOutletContext();
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [resolved, setResolved] = useState([]);
@@ -99,10 +107,11 @@ function RequestReviewComponent() {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const response = await api.get('/requests');
-        const pending = response.data.data.filter(r => r.status === 'pending');
+        const response = await api.get('/rides/requests');
+        const pending = response.data.data.filter(
+          r => r.status?.toLowerCase() === "pending"
+        );
         setRequests(pending);
-        setReviewCount(pending.length);
       } catch (error) {
         console.error("Failed to fetch requests", error);
       } finally {
@@ -110,17 +119,21 @@ function RequestReviewComponent() {
       }
     };
     fetchRequests();
-  }, [setReviewCount]);
+  }, []);
 
   async function resolveRequest(id, newStatus) {
     try {
-      await api.put(`/requests/${id}/status`, { status: newStatus });
-      setRequests((prev) => {
-        const updated = prev.filter((r) => r._id !== id);
-        setReviewCount(updated.length);
-        return updated;
-      });
-      setResolved((prev) => [...prev, { id, status: newStatus }]);
+      await api.put(`/rides/requests/${id}/status`, { status: newStatus });
+
+      setRequests((prev) =>
+        prev.filter((r) => r._id !== id)
+      );
+
+      setResolved((prev) => [
+        ...prev,
+        { id, status: newStatus }
+      ]);
+
     } catch (error) {
       console.error(`Failed to ${newStatus} request:`, error);
     }

@@ -10,11 +10,12 @@ function formatTime(isoString) {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
-function getInitials(fName, lName) {
-    return `${fName?.charAt(0) || ''}${lName?.charAt(0) || ''}`.toUpperCase();
+function routeInitials(name) {
+    const parts = name.split(' → ');
+    return `${parts[0]?.charAt(0) || ''}${parts[1]?.charAt(0) || ''}`.toUpperCase();
 }
 
-function ChatSelector({ activeChat, setActiveChat, socket }) {
+function ChatSelector({ activeChat, setActiveChat, socket, initialRideId }) {
     const [chats, setChats] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -24,42 +25,51 @@ function ChatSelector({ activeChat, setActiveChat, socket }) {
             const response = await api.get('/messages/conversation');
             const conversations = response.data.data.map(conv => ({
                 id: conv.id,
-                rideId: conv.rideId._id,
-                otherUserId: conv.otherUser._id,
-                initials: getInitials(conv.otherUser.fName, conv.otherUser.lName),
-                name: `${conv.otherUser.fName} ${conv.otherUser.lName}`,
+                rideId: conv.rideId,
+                name: conv.rideName,
+                initials: routeInitials(conv.rideName),
                 time: formatTime(conv.time),
                 lastMessage: conv.lastMessage,
             }));
-            
+
             setChats(conversations);
             setActiveChat(prev => {
-                if (conversations.length > 0 && !prev) {
-                    return conversations[0];
+                if (prev) return prev;
+                if (initialRideId) {
+                    return conversations.find(c => c.rideId === initialRideId) || conversations[0] || null;
                 }
-                return prev;
+                return conversations[0] || null;
             });
         } catch (error) {
             console.error("Failed to fetch chats:", error);
         } finally {
             setLoading(false);
         }
-    }, [setActiveChat]);
+    }, [setActiveChat, initialRideId]);
 
     useEffect(() => {
         fetchChats();
     }, [fetchChats]);
 
     useEffect(() => {
+        if (!initialRideId || chats.length === 0) return;
+        const target = chats.find(c => c.rideId === initialRideId);
+        if (target) setActiveChat(target);
+    }, [initialRideId, chats, setActiveChat]);
+
+    useEffect(() => {
+        if (socket && chats.length > 0) {
+            socket.emit('joinAllRideRooms', chats.map(c => c.rideId));
+        }
+    }, [socket, chats]);
+
+    useEffect(() => {
         if (!socket) return;
 
         const handleNewMessage = (message) => {
             setChats(prevChats => {
-                const chatIndex = prevChats.findIndex(c => 
-                    c.rideId === message.rideId && 
-                    (c.otherUserId === message.senderId || c.otherUserId === message.receiverId)
-                );
-                
+                const chatIndex = prevChats.findIndex(c => c.rideId === message.rideId);
+
                 if (chatIndex > -1) {
                     const updatedChat = {
                         ...prevChats[chatIndex],
@@ -82,10 +92,6 @@ function ChatSelector({ activeChat, setActiveChat, socket }) {
         };
     }, [socket, fetchChats]);
 
-    const handleChatClick = (chat) => {
-        setActiveChat(chat);
-    };
-
     return (
         <div className={styles['container-left']}>
             <h1>Messages</h1>
@@ -102,15 +108,15 @@ function ChatSelector({ activeChat, setActiveChat, socket }) {
                         <Inbox size={40} color="var(--blue-pale)" strokeWidth={1.5} style={{ marginBottom: '0.75rem' }} />
                         <p style={{ margin: 0, fontWeight: 500 }}>No conversations yet</p>
                         <p style={{ margin: '0.5rem 0 0', fontSize: '0.8125rem', color: 'var(--text-light)' }}>
-                            Messages will appear here
+                            Join or post a ride to start chatting
                         </p>
                     </div>
                 ) : (
                     chats.map(chat => (
-                        <div 
+                        <div
                             key={chat.id}
                             className={clsx(styles.directmessage, activeChat?.id === chat.id && styles.active)}
-                            onClick={() => handleChatClick(chat)}
+                            onClick={() => setActiveChat(chat)}
                         >
                             <div className={styles.avatar}>{chat.initials}</div>
                             <div className={styles.right}>
@@ -118,7 +124,7 @@ function ChatSelector({ activeChat, setActiveChat, socket }) {
                                     <span className={styles['profile-name']}>{chat.name}</span>
                                     <span className={styles['time-of-message']}>{chat.time}</span>
                                 </div>
-                                <div className={styles.bottom}>{chat.lastMessage}</div>
+                                <div className={styles.bottom}>{chat.lastMessage || 'No messages yet'}</div>
                             </div>
                         </div>
                     ))

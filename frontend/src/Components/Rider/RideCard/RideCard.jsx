@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { Calendar, Clock, ArrowRight, ChevronDown } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import RideMap from './RideMap';
 import styles from './RideCard.module.css';
 import clsx from 'clsx';
+
+const DEFAULT_IMAGE = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
 
 function SeatDots({ remaining, total = 4 }) {
   return (
@@ -29,15 +32,21 @@ function RideCard({ ride, onRequest, requested }) {
     <div className={styles['rider-ride-card']}>
       <div className={styles['card-body']}>
         <div className={styles['driver-col']}>
-          <img
-            src={ride.driverId?.profilePictureUrl}
-            alt={ride.driverId?.fName}
-            className={styles['profile-pic']}
-          />
-          <div className={styles['driver-name']}>
-            <span className={styles['driver-fname']}>{ride.driverId?.fName}</span>
-            <span className={styles['driver-lname']}>{ride.driverId?.lName}</span>
-          </div>
+          <Link to={`/profile/${ride.driverId?._id}`} className={styles['driver-link']}>
+            <img
+              src={
+                ride.driverId?.profilePicture?.trim()
+                  ? encodeURI(ride.driverId.profilePicture)
+                  : DEFAULT_IMAGE
+              }
+              alt={ride.driverId?.fName || "Driver"}
+              className={styles['profile-pic']}
+            />
+            <div className={styles['driver-name']}>
+              <span className={styles['driver-fname']}>{ride.driverId?.fName}</span>
+              <span className={styles['driver-lname']}>{ride.driverId?.lName}</span>
+            </div>
+          </Link>
           <div className={styles['driver-rating']}>
             <span className={styles['rating-value']}>
               {ride.driverId?.avgRating != null ? ride.driverId.avgRating.toFixed(1) : "N/A"} ★

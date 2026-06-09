@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { MessagesSquare, ChartNoAxesColumn, Car, Tickets } from "lucide-react";
+import { MessagesSquare, ChartNoAxesColumn, Car, Tickets, User } from "lucide-react";
 import styles from "./Navbar.module.css";
 import { useAuth } from "../../context/useAuth.jsx";
 import clsx from "clsx";
@@ -28,6 +28,7 @@ function Navbar() {
             <Link to="/driver" className={styles.navLink}><Car /></Link>
             <Link to="/rider" className={styles.navLink}><Tickets /></Link> 
             <Link to="/messages" className={styles.navLink}><MessagesSquare /></Link>
+            <Link to="/profileSetting" className={styles.navLink}><User /></Link>
           </div>
         )}
       </div>

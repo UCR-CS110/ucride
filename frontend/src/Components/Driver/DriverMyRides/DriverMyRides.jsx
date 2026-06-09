@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useOutletContext } from "react-router-dom";
-import { ArrowRight, Clock, Users, Banknote, ClipboardList, Plus } from "lucide-react";
+import { ArrowRight, Clock, Users, Banknote, ClipboardList, Plus, MessageSquare } from "lucide-react";
 import api from "../../../utils/api";
 import { useAuth } from "../../../context/useAuth";
 import styles from "./DriverMyRides.module.css";
@@ -65,6 +65,11 @@ function RideCard({ ride, onEdit, onDelete, onStatusChange }) {
           ))}
         </select>
         <div className={styles['ride-card_actions']}>
+          <Link to="/messages" state={{ rideId: ride._id }}>
+            <button className={clsx(styles['ride-card_btn'], styles['ride-card_btn--chat'])}>
+              <MessageSquare size={13} style={{ verticalAlign: 'middle', marginRight: 3 }} />Chat
+            </button>
+          </Link>
           <button className={clsx(styles['ride-card_btn'], styles['ride-card_btn--edit'])} onClick={() => onEdit(ride._id, ride.seatPrice)}>Edit Price</button>
           <button className={clsx(styles['ride-card_btn'], styles['ride-card_btn--delete'])} onClick={() => onDelete(ride._id)}>Delete</button>
         </div>
@@ -74,27 +79,45 @@ function RideCard({ ride, onEdit, onDelete, onStatusChange }) {
 }
 
 function DriverMyRides() {
-  const { reviewCount } = useOutletContext();
   const { user } = useAuth();
   const canPostRides = user?.role === 'verified_driver' || user?.role === 'admin';
   const [rides, setRides] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [reviewRide, setReviewRide] = useState(null);
+  const [rating, setRating] = useState(5);
+  const [reviewText, setReviewText] = useState("");
+  const [reviewQueue, setReviewQueue] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
+  const isDriver = user?.role === "verified_driver" || user?.role === "admin";
+
+  const reviewCount = rides.reduce((sum, ride) => {
+    const accepted = ride.requests?.filter(r => r.status === "pending") || [];
+    return sum + accepted.length;
+  }, 0);
+ 
   useEffect(() => {
     const fetchMyRides = async () => {
-      if (!user) return;
+      if (!user?._id) return;
+
       setLoading(true);
+
       try {
-        const response = await api.get('/rides', {
-          params: { driverId: user._id }
+        const response = await api.get("/rides", {
+          params: { driverId: user._id },
         });
-        setRides(response.data.data);
+
+        const ridesData = response.data.data;
+
+        setRides(ridesData); 
+
       } catch (error) {
         console.error("Failed to fetch my rides:", error);
       } finally {
         setLoading(false);
       }
     };
+
     fetchMyRides();
   }, [user]);
 
@@ -122,14 +145,69 @@ function DriverMyRides() {
 
   const handleStatusChange = async (id, newStatus) => {
     try {
-      await api.put(`/rides/${id}/status`, { status: newStatus });
-      setRides(prev => prev.map(r => r._id === id ? { ...r, status: newStatus } : r));
-    } catch (error) {
-      console.error("Failed to update status:", error);
+      const response = await api.put(`/rides/${id}/status`, { status: newStatus });
+      const updatedRide = response.data.data;
+
+      setRides(prev =>
+        prev.map(r => (r._id === id ? updatedRide : r))
+      );
+
+      if (newStatus === "completed") {
+        const accepted = (updatedRide.requests || []).filter(
+          r => r.status === "accepted" && r.userId
+        );
+
+        if (accepted.length > 0) {
+          setReviewRide(updatedRide);
+          setReviewQueue(accepted);
+          setCurrentIndex(0);
+          setRating(5);
+          setReviewText("");
+        }
+      }
+    } catch (err) {
+      console.error("Status update failed:", err);
+    }
+  };
+
+  const handleSubmitReview = async ({ rating, content }) => {
+    if (!reviewRide) return;
+
+    const rider = reviewQueue[currentIndex];
+    if (!rider?.userId) {
+      console.error("No rider found");
+      return;
+    }
+
+    try {
+      await api.post("/reviews", {
+        rideId: reviewRide._id,
+        revieweeId: rider.userId,
+        rating,
+        content
+      });
+
+      const next = currentIndex + 1;
+
+      if (next < reviewQueue.length) {
+        setCurrentIndex(next);
+        setRating(5);
+        setReviewText(""); 
+      } else {
+        setReviewRide(null);
+        setReviewQueue([]);
+        setCurrentIndex(0);
+        setRating(5);
+        setReviewText("");
+      }
+
+    } catch (err) {
+      console.log("BACKEND RESPONSE:", err.response?.data);
     }
   };
 
   const openRides = rides.filter((r) => r.status === "open").length;
+  const currentRider = reviewQueue?.[currentIndex];
 
   return (
     <div className={styles['my-rides-page']}>
@@ -206,6 +284,73 @@ function DriverMyRides() {
           </div>
         )}
       </div>
+
+      {reviewRide && reviewQueue?.length > 0 && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <p>
+              Reviewing rider:{" "}
+              <strong>
+                {currentRider?.userId
+                ? `${currentRider.userId.fName || ""} ${currentRider.userId.lName || ""}`
+                : "Unknown rider"}
+              </strong>
+            </p>
+            <h3>Leave a Review</h3>
+
+            <label>Rating</label>
+
+            <div className={styles.stars}>
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  key={star}
+                  type="button"
+                  className={
+                    star <= rating
+                      ? styles.starActive
+                      : styles.star
+                  }
+                  onClick={() => setRating(star)}
+                >
+                  ★
+                </button>
+              ))}
+            </div>
+
+            <textarea
+              className={styles.reviewInput}
+              placeholder="Share your experience..."
+              value={reviewText}
+              onChange={(e) => setReviewText(e.target.value)}
+            />
+
+            <div className={styles.modalActions}>
+              <button
+                className={styles.submitBtn}
+                onClick={() =>
+                  handleSubmitReview({
+                    rating,
+                    content: reviewText
+                  })}
+                disabled={!reviewText.trim()}
+              >
+                Submit Review
+              </button>
+
+              <button
+                className={styles.cancelBtn}
+                onClick={() => {
+                  setReviewRide(null);
+                  setRating(5);
+                  setReviewText("");
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

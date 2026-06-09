@@ -18,10 +18,7 @@ function ChatContent({ activeChat, socket }) {
         setLoading(true);
         try {
             const response = await api.get('/messages/conversation', {
-                params: {
-                    rideId: activeChat.rideId,
-                    otherUserId: activeChat.otherUserId
-                }
+                params: { rideId: activeChat.rideId }
             });
             setMessages(response.data.data);
         } catch (error) {
@@ -39,10 +36,8 @@ function ChatContent({ activeChat, socket }) {
         if (!socket) return;
 
         const handleNewMessage = (message) => {
-            if (activeChat &&
-                message.rideId === activeChat.rideId &&
-                message.senderId === activeChat.otherUserId &&
-                message.receiverId === user?._id) {
+            const msgSenderId = message.senderId?._id || message.senderId;
+            if (activeChat && message.rideId === activeChat.rideId && msgSenderId?.toString() !== user?._id?.toString()) {
                 setMessages(prev => {
                     const exists = prev.find(m => m._id === message._id);
                     if (exists) return prev;
@@ -52,10 +47,7 @@ function ChatContent({ activeChat, socket }) {
         };
 
         socket.on('newMessage', handleNewMessage);
-
-        return () => {
-            socket.off('newMessage', handleNewMessage);
-        };
+        return () => socket.off('newMessage', handleNewMessage);
     }, [socket, activeChat, user]);
 
     useEffect(() => {
@@ -71,8 +63,7 @@ function ChatContent({ activeChat, socket }) {
 
         const optimisticMessage = {
             _id: tempId,
-            senderId: user._id,
-            receiverId: activeChat.otherUserId,
+            senderId: { _id: user._id, fName: user.fName, lName: user.lName },
             rideId: activeChat.rideId,
             content: messageContent,
             createdAt: new Date().toISOString(),
@@ -86,7 +77,6 @@ function ChatContent({ activeChat, socket }) {
         try {
             const response = await api.post('/messages', {
                 rideId: activeChat.rideId,
-                receiverId: activeChat.otherUserId,
                 content: messageContent
             });
 
@@ -120,7 +110,7 @@ function ChatContent({ activeChat, socket }) {
                 <div className={styles.avatar}>{activeChat.initials}</div>
                 <div>
                     <span className={styles['profile-name']}>{activeChat.name}</span>
-                    <span className={styles['activity-status']}>Active</span>
+                    <span className={styles['chat-subtitle']}>Group Chat</span>
                 </div>
             </div>
             <div className={styles['messages-container']}>
@@ -135,12 +125,22 @@ function ChatContent({ activeChat, socket }) {
                     </div>
                 ) : (
                     messages.map(msg => {
-                        const isMe = msg.senderId === user?._id || msg.senderId?._id === user?._id;
+                        const senderId = msg.senderId?._id || msg.senderId;
+                        const isMe = senderId === user?._id || senderId?.toString() === user?._id;
+                        const senderName = msg.senderId?.fName || '';
                         return (
-                            <div key={msg._id} className={isMe ? styles['sent-message'] : styles['received-message']}>
-                                {msg.content}
+                            <div
+                                key={msg._id}
+                                className={isMe ? styles['message-wrapper-sent'] : styles['message-wrapper']}
+                            >
+                                {!isMe && senderName && (
+                                    <span className={styles['sender-label']}>{senderName}</span>
+                                )}
+                                <div className={isMe ? styles['sent-message'] : styles['received-message']}>
+                                    {msg.content}
+                                </div>
                             </div>
-                        )
+                        );
                     })
                 )}
                 <div ref={messagesEndRef} />

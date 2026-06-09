@@ -4,13 +4,6 @@
   gap: 16px;
 }
 
-.section-title {
-  margin: 0;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--text-dark);
-}
-
 .rides-list {
   display: flex;
   flex-direction: column;
@@ -44,6 +37,7 @@
   flex-wrap: wrap;
   gap: 12px;
 }
+
 
 .my-ride-route {
   display: inline-flex;
@@ -92,7 +86,163 @@
   background: #fee2e2;
   color: #dc2626;
 }
+
+.status-inprogress {
+  background: #fff7ed;
+  color: #c2410c;
+}
+.my-ride-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.chat-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--blue-deep);
+  color: var(--white);
+  border: none;
+  border-radius: 999px;
+  padding: 5px 13px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.12s;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.chat-btn:hover {
+  background: var(--blue-bright);
+  transform: scale(1.03);
+}
+
 .arrow-icon {
     color: var(--blue-bright);
     stroke-width: 2.5;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  backdrop-filter: blur(4px);
+}
+
+.modal {
+  background: #ffffff;
+  width: 420px;
+  max-width: 90%;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  animation: pop 0.2s ease-in-out;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.modal h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #222;
+}
+
+.modal p {
+  margin-bottom: 12px;
+  color: #555;
+  font-size: 14px;
+}
+
+.modal button {
+  cursor: pointer;
+}
+
+.modal div button {
+  font-size: 22px;
+  margin-right: 4px;
+  transition: transform 0.1s ease;
+}
+
+.modal div button:hover {
+  transform: scale(1.2);
+}
+
+.modal textarea {
+  width: 100%;
+  height: 90px;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  resize: none;
+  font-size: 14px;
+  outline: none;
+}
+
+.modal textarea:focus {
+  border-color: #4f46e5;
+}
+
+.modal div:last-child {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.modal div:last-child button {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.modal div:last-child button:first-child {
+  background: #4f46e5;
+  color: white;
+}
+
+.modal div:last-child button:first-child:hover {
+  background: #4338ca;
+}
+
+.modal div:last-child button:last-child {
+  background: #e5e7eb;
+  color: #111;
+}
+
+.modal div:last-child button:last-child:hover {
+  background: #d1d5db;
+}
+
+.star {
+  font-size: 22px;
+  color: #d1d5db;
+  background: none;
+  border: none;
+}
+
+.starActive {
+  color: gold;
 }

@@ -4,11 +4,20 @@ import ChatSelector from "../../Components/Chat/ChatSelector/ChatSelector";
 import styles from './Messages.module.css';
 import { io } from 'socket.io-client';
 import { useAuth } from "../../context/useAuth";
+import { useLocation } from "react-router-dom";
 
 function Messages() {
     const { user } = useAuth();
+    const location = useLocation();
+    const initialRideId = location.state?.rideId;
     const [activeChat, setActiveChat] = useState(null);
     const [socket, setSocket] = useState(null);
+
+    useEffect(() => {
+        if (initialRideId) {
+            setActiveChat(null);
+        }
+    }, [initialRideId]);
 
     useEffect(() => {
         if (!user) return;
@@ -42,9 +51,22 @@ function Messages() {
         };
     }, [user]);
 
+    useEffect(() => {
+        if (!socket || !activeChat?.rideId) return;
+        socket.emit('joinRideRoom', activeChat.rideId);
+        const rejoin = () => socket.emit('joinRideRoom', activeChat.rideId);
+        socket.on('connect', rejoin);
+        return () => socket.off('connect', rejoin);
+    }, [socket, activeChat]);
+
     return (
         <div className={styles['messages-page']}>
-            <ChatSelector activeChat={activeChat} setActiveChat={setActiveChat} socket={socket} />
+            <ChatSelector
+                activeChat={activeChat}
+                setActiveChat={setActiveChat}
+                socket={socket}
+                initialRideId={initialRideId}
+            />
             <ChatContent activeChat={activeChat} socket={socket} />
         </div>
     );

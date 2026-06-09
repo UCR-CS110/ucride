@@ -1,6 +1,9 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const { OAuth2Client } = require('google-auth-library');
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const sendTokenResponse = (user, statusCode, res) => {
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
@@ -74,6 +77,62 @@ exports.login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    sendTokenResponse(user, 200, res);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.googleAuth = async (req, res) => {
+  try {
+    const { credential } = req.body;
+
+    if (!credential) {
+      return res.status(400).json({ message: 'Missing Google credential' });
+    }
+
+    if (!process.env.GOOGLE_CLIENT_ID) {
+      return res.status(500).json({ message: 'Google sign-in is not configured on the server' });
+    }
+
+    let payload;
+    try {
+      const ticket = await googleClient.verifyIdToken({
+        idToken: credential,
+        audience: process.env.GOOGLE_CLIENT_ID
+      });
+      payload = ticket.getPayload();
+    } catch (err) {
+      return res.status(401).json({ message: 'Invalid Google credential' });
+    }
+
+    const { email, email_verified, given_name, family_name, sub } = payload;
+
+    if (!email || !email_verified) {
+      return res.status(401).json({ message: 'Google account email is not verified' });
+    }
+
+    if (!email.endsWith('@ucr.edu')) {
+      return res.status(400).json({ message: 'Only @ucr.edu emails are allowed' });
+    }
+
+    let user = await User.findOne({ email });
+
+    if (user) {
+      if (!user.googleId) {
+        user.googleId = sub;
+        await user.save();
+      }
+    } else {
+      user = await User.create({
+        fName: given_name || 'UCR',
+        lName: family_name || 'User',
+        email,
+        googleId: sub,
+        role: 'user'
+      });
     }
 
     sendTokenResponse(user, 200, res);

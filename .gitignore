@@ -2,6 +2,7 @@
 backend/.env
 backend/test
 frontend/.env
+bankend/uploads
 
 # Logs
 logs

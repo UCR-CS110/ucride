@@ -1,7 +1,9 @@
 import react from "react";
+import ProfileSetting from "../../Components/ProfileSetting/ProfileSetting.jsx";
 
-function Profile() {
-    return <h2>Profile Pages</h2>;
+function ProfileSettingPage() {
+    return (
+        <ProfileSetting />
+    )
 }
-
-export default Profile
+export default ProfileSettingPage

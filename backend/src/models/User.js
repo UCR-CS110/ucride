@@ -14,17 +14,25 @@ const userSchema = new mongoose.Schema({
     required: true, 
     match: /@ucr\.edu$/ 
   },
+  profilePicture: {
+    type: String,
+    default: "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+  },
   password: { 
     type: String, 
-    required: true 
+    required: function () {
+      return !this.googleId;
+    }
+  },
+  googleId: {
+    type: String,
+    unique: true,
+    sparse: true
   },
   role: {
     type: String,
     enum: ['user', 'verified_driver', 'admin'],
     required: true
-  },
-  profilePictureUrl: {
-    type: String
   },
   avgRating: {
     type: Number,
@@ -32,13 +40,13 @@ const userSchema = new mongoose.Schema({
     max: 5
   },
   vehicle: {
-    make: { 
+    vehicleMake: { 
       type: String 
     },
-    model: { 
+    vehicleModel: { 
       type: String 
     },
-    color: { 
+    vehicleColor: { 
       type: String 
     },
     licensePlate: { 
