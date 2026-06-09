@@ -1,38 +1,57 @@
 # UCRide
-
-## Backend
-- Built with Node.js and Express.js
-- Architecture explained further in `backend/readme.md`
+UCRide is a carpooling platform for UC Riverside students that lets verified drivers post their rides and allows riders to join the posted ride to campus.
 
 ## Frontend
-- Built with React.js
-- Architecture explained further in `frontend/readme.md`
+
+### Frameworks
+- React.js
+
+### Build Tools
+- Vite
+
+### APIs/Libraries
+- MapBox GL 
+- Socket.IO
+- react-router 
+- css modules
+- clsx
+
+## Backend
+
+### Frameworks
+- Node.js with Express
+- MongoDB with Mongoose
+
+### APIs/Libraries
+- Socket.IO
+- Multer
+
+## Authentication
+- JWT
+- Google OAuth via google-auth-library
+
+## Team Contributions
+- Amirali
+    - Worked on developing the look and feel of the website
+    - Worked on the database models and backend
+- Karen
+    - Developed the base for the Profiles, Driver, and Review System and connected to backend
+    - Developed the profile settings and added admin functionality to the admin page
+    - Fixed many other issues in the frontend
+- David
+    - Developed the Admin, Rider, Login, Register, and Messages pages
+    - Helped fix styling and logic in other frontend pages
+    - Developed the backend alongside Amirali
+    - Integrated MapBox GL maps into the app
+    - Integrated Socket.IO for the ride-based messaging
 
 ## Deployment
-- Navigate to `backend/` and run `npm run dev` to start the backend server
+- Navigate to `backend/` and run `npm run start` to start the backend server
 - Navigate to `frontend/` and run `npm run dev` to start the frontend server
 - Open a browser and navigate to the URL given by npm after starting the web server
 
-## Project Progress
-### Frontend
-|    Page   |  Structure | Styled | Connected To Backend |
-|:---------:|:----------:|--------|:---------------|
-|    Home       | Y | Y | NA  | 
-|    Driver     | Y | Y | N   |
-|    Rider      | Y | Y | N   |
-|    Admin      | N | N | N   |
-|    Messages   | Y | Y | N   |
-|    Register   | Y | Y | N   |
-|    SignIn     | Y | Y | N   |
-
-### Backend  
-|    Modules   |  Structure | Logic |
-|:---------:|:----------:|--------|
-|    User     | Y | N |
-|    Ride     | Y | N | 
-|    Request  | Y | N | 
-|    Review   | Y | N | 
-|    Message  | Y | N | 
+## AI Use
+We used AI for some of the styling and also for fixing some bugs on the frontend and backend. 
 
 ## Misc
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/c4wSHrp5)
