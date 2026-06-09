@@ -188,7 +188,7 @@
 }
 
 .modal textarea {
-  width: 100%;
+  width: 95%;
   height: 90px;
   margin-top: 10px;
   padding: 10px;
@@ -245,4 +245,51 @@
 
 .starActive {
   color: gold;
+}
+
+
+.reviewBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.reviewBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.reviewBtn:active {
+  transform: translateY(0);
+}
+
+.reviewedBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 999px;
+  background: #e8f7ee;
+  color: #15803d;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: default;
+  opacity: 1;
+}
+
+.reviewedBtn:disabled {
+  color: #15803d;
+  background: #e8f7ee;
 }
