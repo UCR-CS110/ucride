@@ -3,8 +3,10 @@ import styles from "./ProfileSetting.module.css";
 import { useEffect } from "react";
 import api from "../../utils/api";
 import Profile from "../Profile/Profile";
+import { useAuth } from "../../context/useAuth.jsx";
 
 function ProfileSetting() {
+  const { checkAuth } = useAuth();
   const [activeTab, setActiveTab] = useState("profile");
   const [preview, setPreview] = useState(null);
   const DEFAULT_IMAGE ="https://cdn-icons-png.flaticon.com/512/149/149071.png";
@@ -50,14 +52,14 @@ function ProfileSetting() {
 
       const newPic = `${res.data.data.profilePicture}?t=${Date.now()}`;
 
-            setFormData((prev) => ({
-              ...prev,
-              profilePicture: newPic,
-            }));
+      setFormData((prev) => ({
+        ...prev,
+        profilePicture: newPic,
+      }));
 
-            setPreview(newPic);
+      setPreview(newPic);
 
-      window.dispatchEvent(new Event("profileUpdated"));
+      await checkAuth();
 
     } catch (err) {
       console.error(err);

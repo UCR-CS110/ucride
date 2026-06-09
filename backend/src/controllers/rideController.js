@@ -31,7 +31,7 @@ exports.getRides = async (req, res) => {
     }
 
     let rides = await Ride.find(query)
-      .populate("driverId", "fName lName avgRating profilePictureUrl")
+      .populate("driverId", "fName lName avgRating profilePicture")
       .lean();
 
     rides = rides.map(r => ({

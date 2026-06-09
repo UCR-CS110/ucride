@@ -4,7 +4,16 @@
   display: flex;
   justify-content: center;
   padding: 40px 16px;
+  border-radius: 2rem;
+  margin-top:1.5rem;
   font-family: system-ui, -apple-system, sans-serif;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  color: var(--text-mid);
 }
 
 .card {
@@ -12,16 +21,11 @@
   max-width: 760px;
   background: var(--white);
   border-radius: var(--radius-btn);
-  box-shadow: 0 10px 30px rgba(15, 30, 45, 0.08);
   overflow: hidden;
 }
 
 .header {
-  background: linear-gradient(
-    135deg,
-    var(--blue-deep),
-    var(--blue-bright)
-  );
+  background: linear-gradient(135deg, var(--blue-deep), var(--blue-bright));
   padding: 28px;
   display: flex;
   align-items: center;
@@ -41,12 +45,14 @@
 .nameBlock h1 {
   font-size: 22px;
   margin: 0;
+  text-transform: capitalize;
 }
 
 .nameBlock p {
   margin: 4px 0 0;
   font-size: 14px;
   color: rgba(255, 255, 255, 0.85);
+  text-transform: capitalize;
 }
 
 .body {
@@ -65,31 +71,30 @@
 .statCard {
   background: var(--blue-lightest);
   border-radius: var(--radius-btn);
-  padding: 14px;
+  padding: 12px;
   text-align: center;
   border: 1px solid var(--blue-pale);
 }
 
 .statValue {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
   font-size: 18px;
   font-weight: 700;
   color: var(--blue-deep);
 }
 
+.statIcon {
+  color: var(--blue-deep);
+  flex-shrink: 0;
+}
+
 .statLabel {
   font-size: 12px;
   color: var(--text-mid);
-}
-
-.vehicleBox {
-  background: var(--blue-lightest);
-  border-left: 4px solid var(--gold);
-  padding: 14px;
-  border-radius: var(--radius-btn);
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  color: var(--text-dark);
+  margin-top: 4px;
 }
 
 .sectionTitle {
@@ -104,11 +109,20 @@
   border: 1px solid var(--blue-pale);
   border-radius: var(--radius-btn);
   padding: 12px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
 }
 
 .review strong {
   color: var(--text-dark);
+}
+
+.reviewRating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--gold);
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin: 4px 0 0;
 }
 
 .review p {
@@ -123,12 +137,10 @@
 }
 
 .vehicleCard {
-  background: white;
-  border-radius: 14px;
+  background: var(--white);
+  border-radius: var(--radius-btn);
   padding: 16px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-  margin-top: 10px;
-  border: 1px solid #eee;
+  border: 1px solid var(--blue-pale);
 }
 
 .vehicleHeader {
@@ -139,13 +151,14 @@
 }
 
 .vehicleIcon {
-  font-size: 22px;
+  color: var(--gold);
+  flex-shrink: 0;
 }
 
 .vehicleTitle {
   font-size: 18px;
   font-weight: 600;
-  color: #222;
+  color: var(--text-dark);
 }
 
 .vehicleGrid {
@@ -155,19 +168,21 @@
 }
 
 .vehicleItem {
-  background: #f7f9fc;
+  background: var(--blue-lightest);
   padding: 10px;
-  border-radius: 10px;
+  border-radius: var(--radius-btn);
+  border: 1px solid var(--blue-pale);
 }
 
 .vehicleLabel {
   font-size: 12px;
-  color: #777;
+  color: var(--text-light);
   display: block;
+  margin-bottom: 2px;
 }
 
 .vehicleValue {
   font-size: 14px;
   font-weight: 600;
-  color: #111;
+  color: var(--text-dark);
 }

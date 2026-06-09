@@ -2,7 +2,8 @@
 backend/.env
 backend/test
 frontend/.env
-bankend/uploads
+backend/uploads/*
+!backend/uploads/.gitkeep
 
 # Logs
 logs

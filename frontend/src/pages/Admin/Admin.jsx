@@ -102,7 +102,7 @@ function Admin() {
             <Users
               size={32}
               color="var(--blue-deep)"
-              style={{ marginBottom: "10px" }}
+              className={styles["stat-icon"]}
             />
             <h3>Total Users</h3>
             <p>{analytics.totalUsers}</p>
@@ -111,7 +111,7 @@ function Admin() {
             <Car
               size={32}
               color="var(--blue-deep)"
-              style={{ marginBottom: "10px" }}
+              className={styles["stat-icon"]}
             />
             <h3>Total Rides</h3>
             <p>{analytics.totalRides}</p>
@@ -140,13 +140,7 @@ function Admin() {
                   <span>
                     {driver.fName} {driver.lName}
                   </span>
-                  <strong
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.25rem",
-                    }}
-                  >
+                  <strong className={styles["rating-cell"]}>
                     <Star size={14} fill="black" color="black" />
                     {driver.avgRating?.toFixed(1) || "0.0"}
                   </strong>
@@ -171,7 +165,6 @@ function Admin() {
               <th>Name</th>
               <th>Email</th>
               <th>Role</th>
-              <th>Status</th>
               <th>Rating</th>
               <th>Actions</th>
             </tr>
@@ -184,33 +177,13 @@ function Admin() {
                 </td>
                 <td>{user.email}</td>
                 <td>
-                  <span style={{ textTransform: "capitalize" }}>
+                  <span className={styles["role-cell"]}>
                     {user.role}
                   </span>
                 </td>
                 <td>
-                  {user.role !== "admin" && (
-                    <span
-                      className={clsx(
-                        styles["status-badge"],
-                        user.role === "verified_driver"
-                          ? styles["status-verified"]
-                          : styles["status-unverified"],
-                      )}
-                    >
-                      {user.role === "verified_driver" ? "Verified Driver" : "Standard User"}
-                    </span>
-                  )}
-                </td>
-                <td>
                   {user.avgRating ? (
-                    <span
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.25rem",
-                      }}
-                    >
+                    <span className={styles["rating-cell"]}>
                       <Star size={14} fill="black" color="black" />
                       {user.avgRating.toFixed(1)}
                     </span>
@@ -219,13 +192,17 @@ function Admin() {
                   )}
                 </td>
                 <td>
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: "0.5rem",
-                      alignItems: "center",
-                    }}
-                  >
+                  <div className={styles["actions-cell"]}>
+                    <button
+                      className={clsx(
+                        styles["action-btn"],
+                        styles["btn-delete"],
+                      )}
+                      onClick={() => handleDeleteUser(user._id)}
+                      title="Delete User"
+                    >
+                      <Trash2 size={16} />
+                    </button>
                     {user.role !== "admin" && (
                       <button
                         className={clsx(
@@ -242,11 +219,6 @@ function Admin() {
                             ? "Revoke Driver Status"
                             : "Promote to Verified Driver"
                         }
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
                       >
                         {user.role === "verified_driver" ? (
                           <XCircle size={16} />
@@ -255,28 +227,13 @@ function Admin() {
                         )}
                       </button>
                     )}
-                    <button
-                      className={clsx(
-                        styles["action-btn"],
-                        styles["btn-delete"],
-                      )}
-                      onClick={() => handleDeleteUser(user._id)}
-                      title="Delete User"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <Trash2 size={16} />
-                    </button>
                   </div>
                 </td>
               </tr>
             ))}
             {users.length === 0 && !loading && (
               <tr>
-                <td colSpan="6" style={{ textAlign: "center" }}>
+                <td colSpan="5" className={styles["cell-center"]}>
                   No users found.
                 </td>
               </tr>
@@ -315,13 +272,7 @@ function Admin() {
                     : "Unknown"}
                 </td>
                 <td>
-                  <span
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.25rem",
-                    }}
-                  >
+                  <span className={styles["rating-cell"]}>
                     <Star size={14} fill="black" color="black" />
                     {review.rating}
                   </span>
@@ -340,13 +291,7 @@ function Admin() {
                   </span>
                 </td>
                 <td>
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: "0.5rem",
-                      alignItems: "center",
-                    }}
-                  >
+                  <div className={styles["actions-cell"]}>
                     <button
                       className={clsx(
                         styles["action-btn"],
@@ -356,11 +301,6 @@ function Admin() {
                         handleModerateReview(review._id, review.isHidden)
                       }
                       title={review.isHidden ? "Unhide" : "Hide"}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
                     >
                       {review.isHidden ? (
                         <Eye size={16} />
@@ -375,11 +315,6 @@ function Admin() {
                       )}
                       onClick={() => handleDeleteReview(review._id)}
                       title="Delete Review"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
                     >
                       <Trash2 size={16} />
                     </button>
@@ -389,7 +324,7 @@ function Admin() {
             ))}
             {reviews.length === 0 && !loading && (
               <tr>
-                <td colSpan="6" style={{ textAlign: "center" }}>
+                <td colSpan="6" className={styles["cell-center"]}>
                   No reviews found.
                 </td>
               </tr>
@@ -440,7 +375,7 @@ function Admin() {
             ))}
             {rides.length === 0 && !loading && (
               <tr>
-                <td colSpan="5" style={{ textAlign: "center" }}>
+                <td colSpan="5" className={styles["cell-center"]}>
                   No rides found.
                 </td>
               </tr>
@@ -461,7 +396,6 @@ function Admin() {
             activeTab === "analytics" && styles.active,
           )}
           onClick={() => setActiveTab("analytics")}
-          style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
         >
           <LayoutDashboard size={20} /> Analytics
         </button>
@@ -471,7 +405,6 @@ function Admin() {
             activeTab === "users" && styles.active,
           )}
           onClick={() => setActiveTab("users")}
-          style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
         >
           <Users size={20} /> Users
         </button>
@@ -481,7 +414,6 @@ function Admin() {
             activeTab === "rides" && styles.active,
           )}
           onClick={() => setActiveTab("rides")}
-          style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
         >
           <Car size={20} /> Rides
         </button>
@@ -491,23 +423,19 @@ function Admin() {
             activeTab === "reviews" && styles.active,
           )}
           onClick={() => setActiveTab("reviews")}
-          style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
         >
           <Star size={20} /> Reviews
         </button>
       </div>
 
       {error && (
-        <div
-          className={styles["error-message"]}
-          style={{ color: "red", marginBottom: "1rem" }}
-        >
+        <div className={styles["error-message"]}>
           {error}
         </div>
       )}
 
       {loading && (
-        <div style={{ textAlign: "center", padding: "2rem" }}>Loading...</div>
+        <div className={styles["loading-container"]}>Loading...</div>
       )}
 
       {!loading && (

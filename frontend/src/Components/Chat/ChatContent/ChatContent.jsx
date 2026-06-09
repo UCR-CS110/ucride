@@ -96,8 +96,8 @@ function ChatContent({ activeChat, socket }) {
     if (!activeChat) {
         return (
             <div className={clsx(styles['container-right'], styles['chat-content-announcement'])}>
-                <div style={{ textAlign: 'center' }}>
-                    <MessageSquare size={48} color="var(--blue-pale)" strokeWidth={1.5} style={{ marginBottom: '1rem' }} />
+                <div className={styles['chat-inner-center']}>
+                    <MessageSquare size={48} color="var(--blue-pale)" strokeWidth={1.5} className={styles['empty-state-icon']} />
                     <p className={styles['select-chat-message']}>Select a conversation to start messaging</p>
                 </div>
             </div>
@@ -110,7 +110,7 @@ function ChatContent({ activeChat, socket }) {
                 <div className={styles.avatar}>{activeChat.initials}</div>
                 <div>
                     <span className={styles['profile-name']}>{activeChat.name}</span>
-                    <span className={styles['chat-subtitle']}>Group Chat</span>
+                    <span className={styles['chat-subtitle']}>Chat</span>
                 </div>
             </div>
             <div className={styles['messages-container']}>
@@ -120,7 +120,7 @@ function ChatContent({ activeChat, socket }) {
                     </div>
                 ) : messages.length === 0 ? (
                     <div className={styles['loading-message']}>
-                        <MessageSquare size={32} color="var(--blue-pale)" strokeWidth={1.5} style={{ marginBottom: '0.5rem' }} />
+                        <MessageSquare size={32} color="var(--blue-pale)" strokeWidth={1.5} className={styles['no-messages-icon']} />
                         <p>No messages yet. Start the conversation!</p>
                     </div>
                 ) : (

@@ -65,13 +65,13 @@ function RequestCard({ request, onAccept, onDecline }) {
         <div className={styles['request-card_route']}>
           <span className={clsx(styles['request-card_dot'], styles['request-card_dot--from'])} />
           <span className={styles['request-card_place']}>{rideId.departureLocation?.name?.split(',')[0]}</span>
-          <span className={styles['request-card_arrow']} style={{ display: 'inline-flex', alignItems: 'center' }}><ArrowRight size={16} /></span>
+          <span className={styles['request-card_arrow']}><ArrowRight size={16} /></span>
           <span className={clsx(styles['request-card_dot'], styles['request-card_dot--to'])} />
           <span className={styles['request-card_place']}>{rideId.destination?.name?.split(',')[0]}</span>
         </div>
         <div className={styles['request-card_meta']}>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><Clock size={16} /> {formatTime(rideId.departureTime)}</span>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><Banknote size={16} /> ${rideId.seatPrice?.toFixed(2)} / seat</span>
+          <span className={styles['meta-item']}><Clock size={16} /> {formatTime(rideId.departureTime)}</span>
+          <span className={styles['meta-item']}><Banknote size={16} /> ${rideId.seatPrice?.toFixed(2)} / seat</span>
         </div>
       </div>
 
@@ -165,7 +165,7 @@ function RequestReviewComponent() {
       
       {resolved.length > 0 && (
         <div className={styles['resolved-summary']}>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+          <span className={styles['resolved-summary-content']}>
             <Check size={16} /> {resolved.filter((r) => r.status === "accepted").length} accepted
             &nbsp;·&nbsp;
             {resolved.filter((r) => r.status === "declined").length} declined
@@ -176,7 +176,7 @@ function RequestReviewComponent() {
       
       {!loading && requests.length === 0 ? (
         <div className={styles['review-page_empty']}>
-          <p className={styles['review-page_empty-icon']} style={{ display: 'flex', justifyContent: 'center' }}><PartyPopper size={48} /></p>
+          <p className={styles['review-page_empty-icon']}><PartyPopper size={48} /></p>
           <p>No pending requests.</p>
           <Link to="/driver">
             <button className={styles['post-ride-btn']}>Back to Dashboard</button>

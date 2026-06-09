@@ -64,7 +64,11 @@ form {
 
 .form-row {
 	display: flex;
-	gap: 0.75rem;
+	gap: 1.25rem;
+}
+
+.form-row .field {
+	flex: 1;
 }
 
 .field {
@@ -83,6 +87,8 @@ form {
 .field input[type="text"],
 .field input[type="email"],
 .field input[type="password"] {
+	width: 100%;
+	box-sizing: border-box;
 	font-size: 0.95rem;
 	padding: 0.7rem 0.9rem;
 	border: 1.5px solid var(--blue-pale);
@@ -169,4 +175,12 @@ form {
 
 .submit-btn:hover {
 	background: var(--blue-bright);
+	cursor: pointer;
+}
+
+.error-message {
+	color: #dc2626;
+	font-size: 0.85rem;
+	margin-bottom: 1rem;
+	text-align: center;
 }

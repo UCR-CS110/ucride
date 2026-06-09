@@ -105,9 +105,9 @@ function ChatSelector({ activeChat, setActiveChat, socket, initialRideId }) {
                     </div>
                 ) : chats.length === 0 ? (
                     <div className={styles['loading-text']}>
-                        <Inbox size={40} color="var(--blue-pale)" strokeWidth={1.5} style={{ marginBottom: '0.75rem' }} />
-                        <p style={{ margin: 0, fontWeight: 500 }}>No conversations yet</p>
-                        <p style={{ margin: '0.5rem 0 0', fontSize: '0.8125rem', color: 'var(--text-light)' }}>
+                        <Inbox size={40} color="var(--blue-pale)" strokeWidth={1.5} className={styles['empty-inbox-icon']} />
+                        <p className={styles['empty-title']}>No conversations yet</p>
+                        <p className={styles['empty-subtitle']}>
                             Join or post a ride to start chatting
                         </p>
                     </div>

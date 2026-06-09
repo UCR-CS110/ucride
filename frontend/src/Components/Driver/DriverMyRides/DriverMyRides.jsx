@@ -58,7 +58,6 @@ function RideCard({ ride, onEdit, onDelete, onStatusChange }) {
           className={clsx(styles['ride-card_status'], styles[`ride-card_status--${ride.status}`])}
           value={ride.status}
           onChange={(e) => onStatusChange(ride._id, e.target.value)}
-          style={{ border: 'none', outline: 'none', cursor: 'pointer' }}
         >
           {Object.entries(STATUS_LABELS).map(([val, label]) => (
             <option key={val} value={val}>{label}</option>
@@ -67,7 +66,7 @@ function RideCard({ ride, onEdit, onDelete, onStatusChange }) {
         <div className={styles['ride-card_actions']}>
           <Link to="/messages" state={{ rideId: ride._id }}>
             <button className={clsx(styles['ride-card_btn'], styles['ride-card_btn--chat'])}>
-              <MessageSquare size={13} style={{ verticalAlign: 'middle', marginRight: 3 }} />Chat
+              <MessageSquare size={13} className={styles['chat-icon']} />Chat
             </button>
           </Link>
           <button className={clsx(styles['ride-card_btn'], styles['ride-card_btn--edit'])} onClick={() => onEdit(ride._id, ride.seatPrice)}>Edit Price</button>
@@ -245,7 +244,7 @@ function DriverMyRides() {
       {reviewCount > 0 && (
         <div className={styles['review-banner']}>
           <div className={styles['review-banner_text']}>
-            <span className={styles['review-banner_icon']} style={{ display: 'inline-flex', alignItems: 'center' }}><ClipboardList size={24} /></span>
+            <span className={styles['review-banner_icon']}><ClipboardList size={24} /></span>
             <span>
               You have <strong>{reviewCount}</strong> ride request
               {reviewCount !== 1 ? "s" : ""} waiting for your review.

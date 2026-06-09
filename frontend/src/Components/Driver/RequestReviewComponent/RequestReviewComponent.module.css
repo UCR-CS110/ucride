@@ -58,6 +58,12 @@
   letter-spacing: 0.01em;
 }
 
+.resolved-summary-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
 .requests-list {
   display: flex;
   flex-direction: column;
@@ -173,6 +179,8 @@
 }
 
 .request-card_arrow {
+  display: inline-flex;
+  align-items: center;
   color: var(--text-light);
   font-size: 0.8rem;
 }
@@ -187,6 +195,12 @@
   font-size: 0.82rem;
   color: var(--text-mid);
   flex-wrap: wrap;
+}
+
+.meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .request-card_requested-at {
@@ -233,6 +247,8 @@
 }
 
 .review-page_empty-icon {
+  display: flex;
+  justify-content: center;
   font-size: 2.5rem;
   margin: 0 0 0.5rem;
 }

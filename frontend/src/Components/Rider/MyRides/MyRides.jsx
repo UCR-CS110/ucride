@@ -79,7 +79,7 @@ function MyRides() {
                         {myRequest?.status === "accepted" && (
                           <Link to="/messages" state={{ rideId: ride._id }}>
                             <button className={styles['chat-btn']}>
-                              <MessageSquare size={14} /> Group Chat
+                              <MessageSquare size={14} /> Chat
                             </button>
                           </Link>
                         )}
@@ -114,24 +114,20 @@ function MyRides() {
                       </div>
                       <div className={styles['my-ride-actions']}>
                         {wasAccepted && (
-                          <Link to="/messages" state={{ rideId: ride._id }}>
-                            <button className={styles['chat-btn']}>
-                              <MessageSquare size={14} /> Group Chat
-                            </button>
-                          </Link>
-                        )}
-                        {wasAccepted && (
                           <button
-                            className={
-                              ride.reviewed
-                                ? styles.reviewedBtn
-                                : styles.reviewBtn
-                            }
+                            className={clsx(styles['review-btn'], ride.reviewed && styles['review-btn--done'])}
                             disabled={ride.reviewed}
                             onClick={() => setReviewRide(ride)}
                           >
-                            {ride.reviewed ? "✓ Reviewed" : "⭐ Leave Review"}
+                            {ride.reviewed ? "Reviewed" : "Review"}
                           </button>
+                        )}
+                        {wasAccepted && (
+                          <Link to="/messages" state={{ rideId: ride._id }}>
+                            <button className={styles['chat-btn']}>
+                              <MessageSquare size={14} /> Chat
+                            </button>
+                          </Link>
                         )}
                       </div>
                     </div>
@@ -157,12 +153,7 @@ function MyRides() {
                 <button
                   key={star}
                   onClick={() => setRating(star)}
-                  style={{
-                    fontSize: "20px",
-                    color: star <= rating ? "gold" : "#ccc",
-                    background: "none",
-                    border: "none"
-                  }}
+                  className={star <= rating ? styles.starActive : styles.star}
                 >
                   ★
                 </button>

@@ -46,7 +46,7 @@ export default function RideMap({ from, to }) {
       <Map
         mapboxAccessToken={TOKEN}
         initialViewState={{ bounds, fitBoundsOptions: { padding: 30 } }}
-        style={{ width: '100%', height: '100%' }}
+        className={styles['map-fill']}
         mapStyle="mapbox://styles/mapbox/streets-v12"
       >
         {route && (

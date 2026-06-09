@@ -97,6 +97,10 @@ async function populate() {
       remainingSeats: 0,
       seatPrice: 5,
       status: 'completed',
+      requests: [
+        { userId: carol._id, status: 'accepted' },
+        { userId: dave._id,  status: 'accepted' },
+      ],
     },
     {
       driverId: alice._id,
@@ -106,6 +110,10 @@ async function populate() {
       remainingSeats: 3,
       seatPrice: 4,
       status: 'open',
+      requests: [
+        { userId: carol._id, status: 'pending' },
+        { userId: eve._id,   status: 'pending' },
+      ],
     },
     {
       driverId: bob._id,
@@ -115,6 +123,9 @@ async function populate() {
       remainingSeats: 0,
       seatPrice: 8,
       status: 'completed',
+      requests: [
+        { userId: eve._id, status: 'accepted' },
+      ],
     },
     {
       driverId: bob._id,
@@ -124,6 +135,9 @@ async function populate() {
       remainingSeats: 1,
       seatPrice: 15,
       status: 'inprogress',
+      requests: [
+        { userId: dave._id, status: 'accepted' },
+      ],
     },
   ]);
   console.log('Created 4 rides');
@@ -162,15 +176,14 @@ async function populate() {
 
   // --- Messages ---
   await Message.insertMany([
-    { senderId: carol._id, receiverId: alice._id, rideId: ride1._id, content: 'Hi Alice! Are we still on for the ride tomorrow?', isRead: true },
-    { senderId: alice._id, receiverId: carol._id, rideId: ride1._id, content: "Yes! I'll pick you up at the main entrance.", isRead: true },
-    { senderId: dave._id,  receiverId: alice._id, rideId: ride1._id, content: 'Where exactly should I wait for pickup?', isRead: true },
-    { senderId: alice._id, receiverId: dave._id,  rideId: ride1._id, content: 'Meet me at the Lot 30 parking structure.', isRead: false },
-    { senderId: eve._id,   receiverId: bob._id,   rideId: ride3._id, content: 'Can you accommodate one extra bag?', isRead: true },
-    { senderId: bob._id,   receiverId: eve._id,   rideId: ride3._id, content: 'Sure, I have space in the trunk.', isRead: true },
-    { senderId: carol._id, receiverId: alice._id, rideId: ride2._id, content: 'Excited for the upcoming ride!', isRead: false },
+    { senderId: carol._id, rideId: ride1._id, content: 'Are we still on for the ride tomorrow?' },
+    { senderId: alice._id, rideId: ride1._id, content: "Yes! I'll pick you up at the main entrance." },
+    { senderId: dave._id,  rideId: ride1._id, content: 'Where exactly should I wait for pickup?' },
+    { senderId: alice._id, rideId: ride1._id, content: 'Meet me at the Lot 30 parking structure.' },
+    { senderId: eve._id,   rideId: ride3._id, content: 'Can you accommodate one extra bag?' },
+    { senderId: bob._id,   rideId: ride3._id, content: 'Sure, I have space in the trunk.' },
   ]);
-  console.log('Created 7 messages');
+  console.log('Created 6 messages');
 
   console.log('\n=== Populate complete ===');
   console.log('Credentials (password: password123 unless noted):');

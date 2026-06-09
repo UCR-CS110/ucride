@@ -1,15 +1,14 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../../context/useAuth";
+import styles from "./ProtectedRoute.module.css";
 
 function ProtectedRoute({ children, allowedRoles }) {
   const { user, isLoading } = useAuth();
 
   if (isLoading) {
     return (
-      <div
-        style={{ display: "flex", justifyContent: "center", padding: "2rem" }}
-      >
+      <div className={styles['loading-container']}>
         Loading...
       </div>
     );
