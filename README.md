@@ -52,6 +52,11 @@ UCRide is a carpooling platform for UC Riverside students that lets verified dri
 
 ## AI Use
 We used AI for some of the styling and also for fixing some bugs on the frontend and backend. 
+- Karen
+    - Used AI for styling the frontend
+    - Fixed bugs when connecting frontend with backend in Profile, ProfileSetting, and Review System.
+    - Learned how to connect frontend with backend from AI
+      
 
 ## Misc
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/c4wSHrp5)
