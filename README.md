@@ -56,6 +56,10 @@ We used AI for some of the styling and also for fixing some bugs on the frontend
     - Used AI for styling the frontend
     - Fixed bugs when connecting frontend with backend in Profile, ProfileSetting, and Review System.
     - Learned how to connect frontend with backend from AI
+- David
+    - We initially designed the frontend using pure CSS which sat in a components' folder (i.e. Navbar/Navbar.jsx and Navbar/Navbar.css) however it became very annoying to write css for new pages and components without affecting other styling so I used AI to refactor our CSS management to use CSS Modules instead to improve the development experience.
+    - I used AI to help me understand the MapBox API Documentation and how to setup, access, and configure the embedded MapBox map.
+    - I used AI to help me resolve a couple confusing rendering bugs related to useEffect that I couldn't figure out.
       
 
 ## Misc
