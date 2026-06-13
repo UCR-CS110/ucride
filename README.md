@@ -1,6 +1,15 @@
 # UCRide
 UCRide is a carpooling platform for UC Riverside students that lets verified drivers post their rides and allows riders to join the posted ride to campus.
 
+## Features
+- Driver and rider account registration/login with Google OAuth
+- Drivers can post rides with MapBox-based route and location selection
+- Riders can browse and join available rides to campus
+- Real-time ride-based messaging via Socket.IO
+- User profiles with editable settings and profile pictures
+- Review system for drivers and riders
+- Admin dashboard for managing users and platform activity
+
 ## Frontend
 
 ### Frameworks
