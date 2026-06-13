@@ -1,0 +1,335 @@
+.my-rides {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.my-rides h3 {
+  margin: 0;
+}
+
+.rides-list + h3 {
+  margin-top: 20px;
+}
+
+.rides-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 48px 20px;
+  background: var(--blue-lightest);
+  border: 1.5px dashed var(--blue-pale);
+  border-radius: 1rem;
+  color: var(--text-light);
+}
+
+.empty-icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+
+.my-ride-card {
+  background: var(--white);
+  border: 1.5px solid var(--blue-pale);
+  border-left: 4px solid var(--blue-bright);
+  border-radius: 0.75rem;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+
+.my-ride-route {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 4px;
+}
+
+.my-ride-time {
+  font-size: 0.85rem;
+  color: var(--text-mid);
+}
+
+.my-ride-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.my-ride-price {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--blue-deep);
+}
+
+.requested-badge {
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.status-pending {
+  background: var(--blue-lightest);
+  color: var(--blue-deep);
+}
+
+.status-accepted {
+  background: #e6f9ef;
+  color: #1a7f4e;
+}
+
+.status-declined {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.status-inprogress {
+  background: #fff7ed;
+  color: #c2410c;
+}
+.my-ride-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.chat-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--blue-deep);
+  color: var(--white);
+  border: none;
+  border-radius: 999px;
+  padding: 5px 13px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.12s;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.chat-btn:hover {
+  background: var(--blue-bright);
+  transform: scale(1.03);
+}
+
+.arrow-icon {
+    color: var(--blue-bright);
+    stroke-width: 2.5;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  backdrop-filter: blur(4px);
+}
+
+.modal {
+  background: #ffffff;
+  width: 420px;
+  max-width: 90%;
+  border-radius: 16px;
+  padding: 20px;
+  animation: pop 0.2s ease-in-out;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.modal h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #222;
+}
+
+.modal p {
+  margin-bottom: 12px;
+  color: #555;
+  font-size: 14px;
+}
+
+.modal button {
+  cursor: pointer;
+}
+
+.modal div button {
+  font-size: 22px;
+  margin-right: 4px;
+  transition: transform 0.1s ease;
+}
+
+.modal div button:hover {
+  transform: scale(1.2);
+}
+
+.modal textarea {
+  width: 95%;
+  height: 90px;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  resize: none;
+  font-size: 14px;
+  outline: none;
+}
+
+.modal textarea:focus {
+  border-color: #4f46e5;
+}
+
+.modal div:last-child {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.modal div:last-child button {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.modal div:last-child button:first-child {
+  background: #4f46e5;
+  color: white;
+}
+
+.modal div:last-child button:first-child:hover {
+  background: #4338ca;
+}
+
+.modal div:last-child button:last-child {
+  background: #e5e7eb;
+  color: #111;
+}
+
+.modal div:last-child button:last-child:hover {
+  background: #d1d5db;
+}
+
+.review-btn {
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  color: var(--blue-deep);
+  border: 1.5px solid var(--blue-deep);
+  border-radius: 999px;
+  padding: 5px 13px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, transform 0.12s;
+  white-space: nowrap;
+}
+
+.review-btn:hover {
+  background: var(--blue-deep);
+  color: var(--white);
+  transform: scale(1.03);
+}
+
+.review-btn--done {
+  background: #f3f4f6;
+  color: #9ca3af;
+  border-color: #e5e7eb;
+  cursor: not-allowed;
+}
+
+.review-btn--done:hover {
+  background: #f3f4f6;
+  color: #9ca3af;
+  transform: none;
+}
+
+.star {
+  font-size: 22px;
+  color: #d1d5db;
+  background: none;
+  border: none;
+}
+
+.starActive {
+  color: gold;
+}
+
+
+.reviewBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.reviewBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.reviewBtn:active {
+  transform: translateY(0);
+}
+
+.reviewedBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 999px;
+  background: #e8f7ee;
+  color: #15803d;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: default;
+  opacity: 1;
+}
+
+.reviewedBtn:disabled {
+  color: #15803d;
+  background: #e8f7ee;
+}

@@ -1,0 +1,75 @@
+.rider-nav-container {
+    display: flex;
+    gap: 2rem;
+    border-bottom: 2px solid var(--blue-lightest);
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+}
+
+.icon-xsmall {
+    height: 12px;
+    width: 12px;
+}
+
+.icon-xlarge {
+    height: 24px;
+    width: 24px;
+}
+
+.rider-button {
+    display: inline-flex;  
+    align-items: center;   
+    justify-content: center;
+    background: none;
+    border: none;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-mid);
+    padding: 1rem 0.5rem;
+    margin-bottom: -2px; 
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.rider-button:hover {
+    color: var(--blue-bright);
+}
+
+.rider-button::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--blue-bright);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    transform-origin: center;
+    border-radius: 3px 3px 0 0;
+}
+
+.rider-button:hover::after {
+    transform: scaleX(1);
+}
+
+.rider-button.active {
+    color: var(--blue-deep);
+}
+
+.rider-button.active::after {
+    transform: scaleX(1);
+    background-color: var(--blue-deep);
+}
+
+.rider-button img {
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.rider-button:hover img,
+.rider-button.active img {
+    opacity: 1;
+}

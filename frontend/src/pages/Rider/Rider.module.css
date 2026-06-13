@@ -1,0 +1,19 @@
+.rider-page {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 60px);
+  background-color: var(--light-blue);
+  padding: 2rem;
+  border-radius: 2rem;
+  margin-top:1.5rem;
+}
+
+.rider-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 2rem;
+}

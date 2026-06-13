@@ -1,0 +1,148 @@
+.new-ride-page {
+  display: flex;
+  background: #f4f6f8;
+  border-radius: 2rem;
+  min-height: 100vh;
+  margin-top:1.5rem;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2.5rem 1rem 4rem;
+}
+
+.new-ride-card {
+  background: var(--white);
+  border-radius: 1.5rem;
+  padding: 2rem 2rem 2.5rem;
+  width: 100%;
+  max-width: 520px;
+}
+
+.new-ride-card_back {
+  margin-bottom: 1.5rem;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: none;
+  border: 1.5px solid var(--blue-pale);
+  border-radius: var(--radius-btn);
+  padding: 0.35rem 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--blue-deep);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.back-btn:hover {
+  background: var(--blue-lightest);
+  border-color: var(--blue-bright);
+}
+
+.back-btn_arrow {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.new-ride-card_title {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--blue-deep);
+  margin: 0 0 0.25rem;
+}
+
+.new-ride-card_subtitle {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin: 0 0 1.75rem;
+}
+
+.ride-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.ride-form_row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.ride-form_field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.ride-form_field label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-mid);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ride-form_field input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1.5px solid var(--blue-pale);
+  border-radius: var(--radius-btn);
+  padding: 0.6rem 0.85rem;
+  font-size: 0.95rem;
+  color: var(--text-dark);
+  background: var(--blue-lightest);
+  transition: border-color 0.18s;
+  outline: none;
+}
+
+.ride-form_field input:focus {
+  border-color: var(--blue-bright);
+  background: var(--white);
+}
+
+.ride-form_field--error input {
+  border-color: #dc2626;
+  background: #fee2e2;
+}
+
+.ride-form_error {
+  font-size: 0.78rem;
+  color: #dc2626;
+  font-weight: 500;
+}
+
+.ride-form_submit {
+  margin-top: 0.5rem;
+  background: var(--blue-deep);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-btn);
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.12s;
+  letter-spacing: 0.01em;
+}
+
+.ride-form_submit:hover:not(:disabled) {
+  background: var(--blue-bright);
+}
+
+.ride-form_submit:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+@media (max-width: 460px) {
+  .new-ride-card {
+    padding: 1.5rem 1.25rem 2rem;
+  }
+
+  .ride-form_row {
+    grid-template-columns: 1fr;
+  }
+}

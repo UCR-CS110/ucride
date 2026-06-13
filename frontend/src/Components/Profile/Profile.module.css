@@ -1,0 +1,188 @@
+.container {
+  min-height: 100vh;
+  background: var(--blue-lightest);
+  display: flex;
+  justify-content: center;
+  padding: 40px 16px;
+  border-radius: 2rem;
+  margin-top:1.5rem;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  color: var(--text-mid);
+}
+
+.card {
+  width: 100%;
+  max-width: 760px;
+  background: var(--white);
+  border-radius: var(--radius-btn);
+  overflow: hidden;
+}
+
+.header {
+  background: linear-gradient(135deg, var(--blue-deep), var(--blue-bright));
+  padding: 28px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  color: var(--white);
+}
+
+.profilePic {
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--white);
+  background: var(--blue-pale);
+}
+
+.nameBlock h1 {
+  font-size: 22px;
+  margin: 0;
+  text-transform: capitalize;
+}
+
+.nameBlock p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.85);
+  text-transform: capitalize;
+}
+
+.body {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.statCard {
+  background: var(--blue-lightest);
+  border-radius: var(--radius-btn);
+  padding: 12px;
+  text-align: center;
+  border: 1px solid var(--blue-pale);
+}
+
+.statValue {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--blue-deep);
+}
+
+.statIcon {
+  color: var(--blue-deep);
+  flex-shrink: 0;
+}
+
+.statLabel {
+  font-size: 12px;
+  color: var(--text-mid);
+  margin-top: 4px;
+}
+
+.sectionTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-mid);
+  margin-top: 10px;
+}
+
+.review {
+  background: var(--white);
+  border: 1px solid var(--blue-pale);
+  border-radius: var(--radius-btn);
+  padding: 12px;
+}
+
+.review strong {
+  color: var(--text-dark);
+}
+
+.reviewRating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--gold);
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin: 4px 0 0;
+}
+
+.review p {
+  color: var(--text-mid);
+  margin: 6px 0 0;
+}
+
+.empty {
+  text-align: center;
+  color: var(--text-light);
+  padding: 20px;
+}
+
+.vehicleCard {
+  background: var(--white);
+  border-radius: var(--radius-btn);
+  padding: 16px;
+  border: 1px solid var(--blue-pale);
+}
+
+.vehicleHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.vehicleIcon {
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+.vehicleTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.vehicleGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.vehicleItem {
+  background: var(--blue-lightest);
+  padding: 10px;
+  border-radius: var(--radius-btn);
+  border: 1px solid var(--blue-pale);
+}
+
+.vehicleLabel {
+  font-size: 12px;
+  color: var(--text-light);
+  display: block;
+  margin-bottom: 2px;
+}
+
+.vehicleValue {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
