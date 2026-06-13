@@ -13,8 +13,8 @@ UCRide is a carpooling platform for UC Riverside students that lets verified dri
 - MapBox GL 
 - Socket.IO
 - react-router 
-- css modules
-- clsx
+- CSS Modules
+- CLSX
 
 ## Backend
 
@@ -47,22 +47,22 @@ UCRide is a carpooling platform for UC Riverside students that lets verified dri
     - Implemented local storage for profile pictures
 
 ## Deployment
-- Navigate to `backend/` and run `npm run start` to start the backend server
-- Navigate to `frontend/` and run `npm run dev` to start the frontend server
+- Navigate to `backend/` to run `npm install` and then run `npm run start` to start the backend server
+- Navigate to `frontend/` to run `npm install` and then run `npm run dev` to start the frontend server
 - Open a browser and navigate to the URL given by npm after starting the web server
 
 ## AI Use
 We used AI for some of the styling and also for fixing some bugs on the frontend and backend. 
 - Karen
     - Used AI for styling the frontend
-    - Fixed bugs when connecting frontend with backend in Profile, ProfileSetting, and Review System.
+    - Fixed bugs when connecting frontend with backend in Profile, ProfileSetting, and Review System
     - Learned how to connect frontend with backend from AI
 - David
-    - We initially designed the frontend using pure CSS which sat in a components' folder (i.e. Navbar/Navbar.jsx and Navbar/Navbar.css) however it became very annoying to write css for new pages and components without affecting other styling so I used AI to refactor our CSS management to use CSS Modules instead to improve the development experience.
-    - I used AI to help me understand the MapBox API Documentation and how to setup, access, and configure the embedded MapBox map.
-    - I used AI to help me resolve a couple confusing rendering bugs related to useEffect that I couldn't figure out.
+    - We initially designed the frontend using pure CSS which sat in a components' folder (i.e. Navbar/Navbar.jsx and Navbar/Navbar.css) however it became very annoying to write css for new pages and components without affecting other styling so I used AI to refactor our CSS management to use CSS Modules instead to improve the development experience
+    - I used AI to help me understand the MapBox API Documentation and how to setup, access, and configure the embedded MapBox map
+    - I used AI to help me resolve a couple confusing rendering bugs related to useEffect that I couldn't figure out
     - On the backend, I used AI to help me understand the WebSocket.IO and Multer documentation
-    - There was a weird bug where the profile pictures were not saving to the backend directory correctly. I used AI to figure out why it wasn't saving.
+    - There was a weird bug where the profile pictures were not saving to the backend directory correctly. I used AI to figure out why it wasn't saving
 
 ## Misc
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/c4wSHrp5)
